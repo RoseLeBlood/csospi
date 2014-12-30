@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3096F3A3-16F5-4A54-A1C8-655B27CB5FA7}</ProjectGuid>
+    <Compiler>
+      <Compiler ctype="GccCompiler" />
+    </Compiler>
+    <Language>C</Language>
+    <Target>Bin</Target>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <OutputName>Kernel</OutputName>
+    <CompileTarget>Bin</CompileTarget>
+    <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
+    <SourceDirectory>.</SourceDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <OutputName>Kernel</OutputName>
+    <CompileTarget>Bin</CompileTarget>
+    <OptimizationLevel>3</OptimizationLevel>
+    <DefineSymbols>MONODEVELOP</DefineSymbols>
+    <SourceDirectory>.</SourceDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+    <None Include="inc\klibc\assert.h" />
+    <None Include="inc\klibc\atomic.h" />
+    <None Include="inc\klibc\cstddef.h" />
+    <None Include="inc\klibc\ctype.h" />
+    <None Include="inc\klibc\endian.h" />
+    <None Include="inc\klibc\errno.h" />
+    <None Include="inc\klibc\float.h" />
+    <None Include="inc\klibc\getopt.h" />
+    <None Include="inc\klibc\ieeefp.h" />
+    <None Include="inc\klibc\inttypes.h" />
+    <None Include="inc\klibc\iob.h" />
+    <None Include="inc\klibc\iso646.h" />
+    <None Include="inc\klibc\libgcc.h" />
+    <None Include="inc\klibc\limits.h" />
+    <None Include="inc\klibc\lock.h" />
+    <None Include="inc\klibc\malloc.h" />
+    <None Include="inc\klibc\math.h" />
+    <None Include="inc\klibc\mmalloc.h" />
+    <None Include="inc\klibc\_sizes.h" />
+    <None Include="inc\klibc\sleep.h" />
+    <None Include="inc\klibc\stdarg.h" />
+    <None Include="inc\klibc\stdbool.h" />
+    <None Include="inc\klibc\stddef.h" />
+    <None Include="inc\klibc\stdint.h" />
+    <None Include="inc\klibc\stdio.h" />
+    <None Include="inc\klibc\stdlib.h" />
+    <None Include="inc\klibc\string.h" />
+    <None Include="inc\klibc\time.h" />
+    <None Include="inc\klibc\typeconv.h" />
+    <None Include="inc\klibc\wchar.h" />
+    <None Include="inc\klibc\wctype.h" />
+    <None Include="src\klibc\_extern.cpp" />
+    <None Include="inc\klibc\cxx\algorithm.hpp" />
+    <None Include="inc\klibc\cxx\alignment.hpp" />
+    <None Include="inc\klibc\cxx\allocator.hpp" />
+    <None Include="inc\klibc\cxx\auto_ptr.hpp" />
+    <None Include="inc\klibc\cxx\basic_string.hpp" />
+    <None Include="inc\klibc\cxx\basic_wstring.hpp" />
+    <None Include="inc\klibc\cxx\buffer_allocator.hpp" />
+    <None Include="inc\klibc\cxx\common.hpp" />
+    <None Include="inc\klibc\cxx\cow_string_storage.hpp" />
+    <None Include="inc\klibc\cxx\fixed_array.hpp" />
+    <None Include="inc\klibc\cxx\fixed_list.hpp" />
+    <None Include="inc\klibc\cxx\fixed_sorted_vector.hpp" />
+    <None Include="inc\klibc\cxx\fixed_substring.hpp" />
+    <None Include="inc\klibc\cxx\fixed_vector.hpp" />
+    <None Include="inc\klibc\cxx\functional.hpp" />
+    <None Include="inc\klibc\cxx\hash.hpp" />
+    <None Include="inc\klibc\cxx\hash_map.hpp" />
+    <None Include="inc\klibc\cxx\intrusive_list.hpp" />
+    <None Include="inc\klibc\cxx\intrusive_slist.hpp" />
+    <None Include="inc\klibc\cxx\inttokey.hpp" />
+    <None Include="inc\klibc\cxx\ios.hpp" />
+    <None Include="inc\klibc\cxx\iostream.hpp" />
+    <None Include="inc\klibc\cxx\iterator.hpp" />
+    <None Include="inc\klibc\cxx\list.hpp" />
+    <None Include="inc\klibc\cxx\lock.hpp" />
+    <None Include="inc\klibc\cxx\map.hpp" />
+    <None Include="inc\klibc\cxx\new.hpp" />
+    <None Include="inc\klibc\cxx\pair.hpp" />
+    <None Include="inc\klibc\cxx\radix_sorter.hpp" />
+    <None Include="inc\klibc\cxx\rb_tree.hpp" />
+    <None Include="inc\klibc\cxx\set.hpp" />
+    <None Include="inc\klibc\cxx\simple_string_storage.hpp" />
+    <None Include="inc\klibc\cxx\slist.hpp" />
+    <None Include="inc\klibc\cxx\sort.hpp" />
+    <None Include="inc\klibc\cxx\sorted_vector.hpp" />
+    <None Include="inc\klibc\cxx\sstream.hpp" />
+    <None Include="inc\klibc\cxx\stack.hpp" />
+    <None Include="inc\klibc\cxx\stack_allocator.hpp" />
+    <None Include="inc\klibc\cxx\stl.hpp" />
+    <None Include="inc\klibc\cxx\string.hpp" />
+    <None Include="inc\klibc\cxx\string_utils.hpp" />
+    <None Include="inc\klibc\cxx\type_traits.hpp" />
+    <None Include="inc\klibc\cxx\utility.hpp" />
+    <None Include="inc\klibc\cxx\vector.hpp" />
+    <None Include="src\klibc\cxx\cxxstd.cpp" />
+    <None Include="src\klibc\cxx\icxxabi.cpp" />
+    <None Include="src\klibc\cxx\intrusive_list.cpp" />
+    <None Include="src\klibc\cxx\intrusive_slist.cpp" />
+    <None Include="src\klibc\cxx\iostream.cpp" />
+    <None Include="src\klibc\cxx\list.cpp" />
+    <None Include="src\klibc\cxx\lock.cpp" />
+    <None Include="src\klibc\cxx\new.cpp" />
+    <None Include="src\klibc\cxx\slist.cpp" />
+    <None Include="src\devfs.cpp" />
+    <None Include="src\DeviceStream.cpp" />
+    <None Include="src\IStream.cpp" />
+    <None Include="inc\cmdParse.h" />
+    <None Include="inc\config.h" />
+    <None Include="inc\devfs.hpp" />
+    <None Include="inc\DeviceStream.hpp" />
+    <None Include="inc\FileStream.hpp" />
+    <None Include="inc\fs.h" />
+    <None Include="inc\IStream.hpp" />
+    <None Include="inc\types.h" />
+    <None Include="inc\version.h" />
+    <None Include="inc\dev\Device.hpp" />
+    <None Include="inc\dev\DeviceList.hpp" />
+    <None Include="inc\dev\Driver.hpp" />
+    <None Include="inc\dev\DriverList.hpp" />
+    <None Include="inc\dev\Random.hpp" />
+    <None Include="inc\dev\serial_out.hpp" />
+    <None Include="inc\dev\klang\de_de.h" />
+    <None Include="src\dev\Device.cpp" />
+    <None Include="src\dev\DeviceList.cpp" />
+    <None Include="src\dev\Driver.cpp" />
+    <None Include="src\dev\DriverList.cpp" />
+    <None Include="src\dev\random.cpp" />
+    <None Include="src\dev\serial_out.cpp" />
+    <None Include="inc\kernel\kernel.hpp" />
+    <None Include="inc\kernel\mm.h" />
+    <None Include="inc\kernel\pmm.h" />
+    <None Include="inc\sys\dirent.h" />
+    <None Include="inc\sys\stat.h" />
+    <None Include="inc\sys\unistd.h" />
+    <None Include="inc\sys\utsname.h" />
+    <None Include="inc\kernel\video.h" />
+    <None Include="src\aebi\_udivsi3.s" />
+    <None Include="src\aebi\_divsi3.s" />
+    <None Include="src\kshell.cpp" />
+    <None Include="inc\dev\GPIO.hpp" />
+    <None Include="inc\dev\SysTimer.hpp" />
+    <None Include="src\dev\SysTimer.cpp" />
+    <None Include="src\kernel\pi\main.cpp" />
+    <None Include="src\kernel\pi\intr.S" />
+    <None Include="src\kernel\pi\start.S" />
+    <None Include="src\kernel\pi\link.ld" />
+    <None Include="inc\kernel\isr.h" />
+    <None Include="inc\kernel\mailbox.h" />
+    <None Include="inc\kernel\utils.h" />
+    <None Include="inc\dev\Framebuffer.hpp" />
+    <None Include="src\dev\Framebuffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="inc\" />
+    <Folder Include="inc\klibc\" />
+    <Folder Include="src\klibc\" />
+    <Folder Include="inc\dev\" />
+    <Folder Include="inc\klibc\cxx\" />
+    <Folder Include="src\klibc\cxx\" />
+    <Folder Include="inc\dev\klang\" />
+    <Folder Include="src\dev\" />
+    <Folder Include="inc\kernel\" />
+    <Folder Include="src\kernel\" />
+    <Folder Include="inc\sys\" />
+    <Folder Include="src\sys\" />
+    <Folder Include="src\aebi\" />
+    <Folder Include="inc\dev\Bus\" />
+    <Folder Include="src\dev\bus\" />
+    <Folder Include="src\kernel\pi\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\klibc\assert.c" />
+    <Compile Include="src\klibc\ctype.c" />
+    <Compile Include="src\klibc\errno.c" />
+    <Compile Include="src\klibc\getopt.c" />
+    <Compile Include="src\klibc\getopt_long.c" />
+    <Compile Include="src\klibc\libgcc.c" />
+    <Compile Include="src\klibc\malloc.c" />
+    <Compile Include="src\klibc\math_exp.c" />
+    <Compile Include="src\klibc\math_misc.c" />
+    <Compile Include="src\klibc\math_pow.c" />
+    <Compile Include="src\klibc\math_trigo.c" />
+    <Compile Include="src\klibc\memclr.c" />
+    <Compile Include="src\klibc\mm.c" />
+    <Compile Include="src\klibc\stdio.c" />
+    <Compile Include="src\klibc\stdlib.c" />
+    <Compile Include="src\klibc\string.c" />
+    <Compile Include="src\klibc\time.c" />
+    <Compile Include="src\klibc\typeconv.c" />
+    <Compile Include="src\klibc\wchar.c" />
+    <Compile Include="src\klibc\wctype.c" />
+    <Compile Include="src\cmdParse.c" />
+    <Compile Include="src\fs.c" />
+    <Compile Include="src\kernel\mm.c" />
+    <Compile Include="src\kernel\pmm.c" />
+    <Compile Include="src\sys\utsname.c" />
+    <Compile Include="src\klibc\sleep.c" />
+    <Compile Include="src\kernel\pi\isr.c" />
+    <Compile Include="src\kernel\pi\mailbox.c" />
+    <Compile Include="src\kernel\pi\utils.c" />
+    <Compile Include="src\kernel\pi\iob.c" />
+    <Compile Include="src\klibc\sqrtf.c" />
+  </ItemGroup>
+</Project>
