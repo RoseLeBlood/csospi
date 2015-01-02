@@ -28,7 +28,7 @@ extern "C"
 
 
 
-struct FrameBuffer
+struct KernelFrameBuffer
 {
 	uint32_t ifbX;
 	uint32_t ifbY;
@@ -46,8 +46,8 @@ int get_cpu_freq(void);
 int get_system_mem();
 int get_video_mem();
 
-struct FrameBuffer* get_framebuffer_info();
-bool				set_framebuffer(struct FrameBuffer* fb);
+struct KernelFrameBuffer* 	get_framebuffer_info();
+bool						set_framebuffer(struct KernelFrameBuffer* fb);
 
 
 

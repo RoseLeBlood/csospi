@@ -2,6 +2,7 @@
 #include <iob.h>
 #include <kernel/video.h>
 #include <stdio.h>
+#define RPI_SYSTIMER_BASE       0x2000B200
 
 using namespace dev;
 SysTimer::SysTimer() : Driver("Raspberry PI SysTimer","stmr", true, false)

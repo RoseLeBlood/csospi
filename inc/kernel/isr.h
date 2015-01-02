@@ -8,6 +8,29 @@ extern "C"
 
 #include <ctype.h>
 
+#define BCM2835_INTC_TOTAL_IRQ		64 + 8
+
+#define BCM2835_IRQ_ID_AUX			29
+#define BCM2835_IRQ_ID_SPI_SLAVE 	43
+#define BCM2835_IRQ_ID_PWA0			45
+#define BCM2835_IRQ_ID_PWA1		   	46
+#define BCM2835_IRQ_ID_SMI 			48
+#define BCM2835_IRQ_ID_GPIO_0 		49
+#define BCM2835_IRQ_ID_GPIO_1 		50
+#define BCM2835_IRQ_ID_GPIO_2 		51
+#define BCM2835_IRQ_ID_GPIO_3 		52
+#define BCM2835_IRQ_ID_I2C 			53
+#define BCM2835_IRQ_ID_SPI 			54
+#define BCM2835_IRQ_ID_PCM 			55
+#define BCM2835_IRQ_ID_UART 		57
+
+
+#define BCM2835_IRQ_ID_TIMER_0 		64
+#define BCM2835_IRQ_ID_MAILBOX_0	65
+#define BCM2835_IRQ_ID_DOORBELL_0 	66
+#define BCM2835_IRQ_ID_DOORBELL_1 	67
+#define BCM2835_IRQ_ID_GPU0_HALTED 	68
+
 struct register_t
 {
     // r13 und r14 des Usermodes
@@ -22,10 +45,16 @@ struct register_t
 } __attribute__((packed));
 
 
-typedef void (*isr_t)(struct register_t*, void*);
+typedef struct register_t* (*isr_t)(struct register_t*, void*);
 
-void set_handler(uint8_t n, isr_t handler);
-void set_handlerex(uint8_t n, isr_t handler, void* userdata);
+int 	init_isr	();
+
+int 	set_handler(uint8_t n, isr_t handler);
+int 	set_handlerex(uint8_t n, isr_t handler, void* userdata);
+int 	set_on_irq				(int n);
+int 	set_off_irq				(int n);
+int 	enable_irq				();
+int 	disable_irq				();
 
 #ifdef __cplusplus
 }

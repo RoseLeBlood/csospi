@@ -1,9 +1,19 @@
-﻿.section ".text.startup"
+﻿
+
+.section ".text.startup"
 
 .global _start
 .global _get_stack_pointer
 .global _exception_table
 .global _enable_interrupts
+
+// From the ARM ARM (Architecture Reference Manual). Make sure you get the
+// ARMv5 documentation which includes the ARMv6 documentation which is the
+// correct processor type for the Broadcom BCM2835. The ARMv6-M manuals
+// available on the ARM website are for Cortex-M parts only and are very
+// different.
+//
+// See ARM section A2.2 (Processor Modes)
 
 .equ    CPSR_MODE_USER,         0x10
 .equ    CPSR_MODE_FIQ,          0x11
@@ -34,7 +44,7 @@ _software_interrupt_vector_h:       .word   software_interrupt_vector
 _prefetch_abort_vector_h:           .word   prefetch_abort_vector
 _data_abort_vector_h:               .word   data_abort_vector
 _unused_handler_h:                  .word   _reset_
-_interrupt_vector_h:                .word   interrupt_vector
+_interrupt_vector_h:                .word   isr_handle
 _fast_interrupt_vector_h:           .word   fast_interrupt_vector
 
 _reset_:
@@ -53,6 +63,7 @@ _reset_:
     mov r0, #(CPSR_MODE_IRQ | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
     msr cpsr_c, r0
     mov sp, #0x8000
+
     // Switch back to supervisor mode (our application mode) and
     // set the stack pointer towards the end of RAM. Remember that the
     // stack works its way down memory, our heap will work it's way
@@ -63,44 +74,34 @@ _reset_:
     // Set the stack pointer at the end of RAM.
     // Keep it within the limits and also keep it aligned to a 32-bit
     // boundary!
-    //mov     sp, #0x4000
+    mov     sp, #0x4000
     // mov     sp, #(128 * (1024 * 1024)) - 4
     //mov     sp, #(256 * (1024 * 1024)) - 4
     //mov     sp, #(512 * (1024 * 1024)) - 4
-
-    ldr     r13, [r15, #kernel_stack_addr - 8 - .]
-	mov     r0, r13
-	msr     cpsr_ctl, #0xD2
-	add     r13, r0, #8192
-	msr     cpsr_ctl, #0xD3
 
     // The c-startup function which we never return from. This function will
     // initialise the ro data section (most things that have the const
     // declaration) and initialise the bss section variables to 0 (generally
     // known as automatics). It'll then call main, which should never return.
     bl      kernel_main
+
     // If main does return for some reason, just catch it and stay here.
 _inf_loop:
     b       _inf_loop
+
+
 _get_stack_pointer:
     // Return the stack pointer value
     str     sp, [sp]
     ldr     r0, [sp]
+
     // Return from the function
     mov     pc, lr
+
+
 _enable_interrupts:
     mrs     r0, cpsr
     bic     r0, r0, #0x80
     msr     cpsr_c, r0
+
     mov     pc, lr
-
-/* EnthÃ¤lt die Adresse des Kernelstacks */
-kernel_stack_addr:
-.4byte  kernel_stack
-
-/* 8 kB Stack fÃ¼r den Kernel. Das Label steht hinter dem freien Speicher,
-   weil der Stack nach unten wÃ¤chst */
-.section .bss
-.space 8192
-kernel_stack:
-.space 8192

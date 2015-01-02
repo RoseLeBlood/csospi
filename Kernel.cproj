@@ -161,6 +161,8 @@
     <None Include="inc\kernel\utils.h" />
     <None Include="inc\dev\Framebuffer.hpp" />
     <None Include="src\dev\Framebuffer.cpp" />
+    <None Include="inc\dev\ArmTimer.hpp" />
+    <None Include="src\dev\ArmTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

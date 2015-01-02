@@ -7,8 +7,6 @@
 
 extern void *end;
 
-static struct FrameBuffer *__mpBuffer_frame__ = NULL; 
-
 int get_cpu_freq(void)
 {
 	int alignedEnd = (unsigned int)&end;
@@ -57,7 +55,7 @@ int get_system_mem()
 
 	var = bcm_read_mailbox(BCM2835_MBOX_CHANNEL_PROPERTY);
 
-	return ptr[6] / 1024 / 1024;
+	return ptr[6];
 }
 int get_video_mem()
 {
@@ -81,19 +79,16 @@ int get_video_mem()
 
 	var = bcm_read_mailbox(BCM2835_MBOX_CHANNEL_PROPERTY);
 
-	return ptr[6] / 1024 / 1024;
+	return ptr[6];
 }
 static bool fb_fail(unsigned int num)
 {
 	return false;
 }
 
-struct FrameBuffer* get_framebuffer_info()
+struct KernelFrameBuffer* get_framebuffer_info()
 {
-	if(__mpBuffer_frame__ != NULL)
-		return __mpBuffer_frame__;
-
-	__mpBuffer_frame__ = (struct FrameBuffer*)malloc(sizeof(struct FrameBuffer));
+	struct KernelFrameBuffer *__mpBuffer_frame__ = (struct KernelFrameBuffer*)malloc(sizeof(struct KernelFrameBuffer));
 
 	unsigned int var;
 	unsigned int count;
@@ -127,7 +122,7 @@ struct FrameBuffer* get_framebuffer_info()
 
 	return __mpBuffer_frame__;
 }
-bool set_framebuffer(struct FrameBuffer* fb)
+bool set_framebuffer(struct KernelFrameBuffer* fb)
 {
 	unsigned int var;
 	unsigned int count;

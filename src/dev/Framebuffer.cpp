@@ -7,6 +7,7 @@
 #include <kernel/utils.h>
 #include <math.h>
 #include <config.h>
+#include <kernel/kernel.hpp>
 
 using namespace dev;
 
@@ -145,8 +146,8 @@ unsigned char font8x8_basic[128][8] = {
 
 bool Framebuffer::Probe()
 {
-	m_fb = get_framebuffer_info();
-	m_fb->iDepth = 24;
+	m_fb = Kernel::Instance().GetKernelFrambuffer();
+
 	if(set_framebuffer(m_fb))
 	{
 		m_mem = (char *) m_fb->pFramebuffer;
@@ -165,21 +166,14 @@ void Framebuffer::put(char c)
 	int x = xpos;
 	int y = ypos;
 
-	if(c != ' ')
-		let_data = font8x8_basic[(unsigned char)c];
-	else
-	{
-		xpos += 2;
-		return;
-	}
-	
+	let_data = font8x8_basic[(unsigned char)c];
 
-	for(int i = 0; i < 8; i++)
+
+	for(int i = 0; i < CHARSIZE_X; i++)
 	{
-		for(int j = 0; j < 8; j++)
-		{			
-			if((let_data[i] & (1 << j)) > 0)
-				SetPixel(x+j, y+i-4, m_txtColor);
+		for(int j = 0; j < CHARSIZE_Y; j++)
+		{	
+			SetPixel(x+j, y+i-4, (((let_data[i] & (1 << j)) > 0) ? m_txtColor : m_backColor ) );
 		}
 	}
 
@@ -193,11 +187,11 @@ void Framebuffer::InternalWrite(char c)
 			xpos = 0;
 			break;
 		case '\n':                         // -> newline (with implicit cr) 
-			xpos = 4;
-			ypos += 8;
+			xpos = CHARSIZE_X / 2;
+			ypos += CHARSIZE_Y + 2;
 			break;
 		case '\t':
-			xpos = (xpos + LIB_TAB_SIZE*8 ) &  ~(LIB_TAB_SIZE*8 - 1);
+			xpos = (xpos + LIB_TAB_SIZE * CHARSIZE_X ) &  ~(LIB_TAB_SIZE * CHARSIZE_X - 1);
 			break;
 		case '\b':                            // -> backspace 
 			t = xpos + ypos * m_fb->ifbX; 
@@ -205,7 +199,7 @@ void Framebuffer::InternalWrite(char c)
 			
 			if(xpos > 0)
 			{
-				xpos -= 8;
+				xpos -= CHARSIZE_X;
 			}
 			else if(ypos > 0)
 			{
@@ -217,15 +211,15 @@ void Framebuffer::InternalWrite(char c)
 		default:
 			if(c < ' ') break;
 			put(c);
-			xpos += 8;	
-			if(xpos >= m_fb->ifbX - 8)
+			xpos += CHARSIZE_X;
+			if(xpos >= m_fb->ifbX - CHARSIZE_X)
 			{
 				xpos = 4;
-				ypos += 10;
+				ypos += (CHARSIZE_Y + 2);
 			}
 			break;
 		}
-		if(ypos >= m_fb->ifbY - 20)
+		if(ypos >= m_fb->ifbY - CHARSIZE_Y)
 		{
 			Clear();
 			ypos--;

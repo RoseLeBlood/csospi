@@ -6,6 +6,7 @@
 #include <kernel/kernel.hpp>
 #include <dev/SysTimer.hpp>
 #include <dev/Framebuffer.hpp>
+#include <dev/ArmTimer.hpp>
 
 extern "C" void AddDriver(dev::Driver* dev)
 {
@@ -21,6 +22,7 @@ namespace dev
 		Add(new std_random());
 		Add(new SysTimer());
 		Add(new Framebuffer());
+		Add(new ArmTimer());
 	}
 	DriverList::~DriverList()
 	{

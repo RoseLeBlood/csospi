@@ -2,6 +2,7 @@
 #include <iob.h>
 #include <kernel/video.h>
 #include <stdio.h>
+#include <cxx/iostream.hpp>
 
 using namespace dev;
 SerialOut::SerialOut(int port) : Driver("uart i/o", "uart", 0,0,0x07, true, true), m_port(port)
@@ -49,9 +50,19 @@ bool SerialOut::Probe()
 	// Enable UART0, receive & transfer part of UART.
 	outi(GPIO::UART0_CR, (1 << 0) | (1 << 8) | (1 << 9));
 
+
+	setHandler(BCM2835_IRQ_ID_UART);
+	set_on_irq(BCM2835_IRQ_ID_UART);
+
 	return true;
 	
 }
+register_t* SerialOut::callback(register_t* state)
+{
+
+	printf("UART");
+}
+
 char SerialOut::ReadChar()
 {
 	// wait for UART to have recieved something

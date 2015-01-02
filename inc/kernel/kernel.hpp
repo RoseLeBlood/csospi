@@ -10,13 +10,14 @@
 #include <dev/DriverList.hpp>
 #include <dev/DeviceList.hpp>
 #include <cxx/stl.hpp>
+#include <kernel/utils.h>
 
 extern "C" void* kernel_instance;
 
 class Kernel
 {
 public:
-	Kernel();
+	Kernel(uint64_t system_ram, uint64_t gpu_ram, KernelFrameBuffer *fb);
 
 	int RunKernel(int args, char** argv);
 	
@@ -39,11 +40,20 @@ public:
 	}
 	
 	static Kernel& Instance() { return *((Kernel*)(kernel_instance)); }
+
+	uint64_t	GetVideoRamSize () 		{ return m_vram; }
+	uint64_t    GetSystemRamSize()		{ return m_sram; }
+
+	KernelFrameBuffer* GetKernelFrambuffer() { return m_pFB; }
 private:
 	void plotinfo(const char* text, uint32_t s, uint32_t e);
 private:
 	dev::DriverList*					m_driverList;
 	dev::DeviceManager*			    	m_devices;
+private:
+	uint64_t							m_vram;
+	uint64_t							m_sram;
+	KernelFrameBuffer					*m_pFB;
 };
 
 extern "C" void* GetDeviceByName(char* name);

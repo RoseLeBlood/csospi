@@ -47,10 +47,11 @@ namespace dev
 	{
 		return m_DevName;
 	}
-	void Driver::driver_callback(register_t* state, void* userdata)
+	register_t* Driver::driver_callback(register_t* state, void* userdata)
 	{
 		Driver* drv = (Driver*)userdata;
 		if(drv != NULL)
-			drv->callback(state);
+			return drv->callback(state);
+		return state;
 	}
 }

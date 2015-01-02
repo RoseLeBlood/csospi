@@ -63,7 +63,7 @@ KLIBCPP = src/klibc/cxx/new.o \
 		  src/klibc/cxx/intrusive_slist.o \
 		  src/klibc/cxx/slist.o \
 		  src/IStream.o \
-		  src/klibc/cxx/lock.o
+		  src/klibc/cxx/lock.o 
 
 FS	  = src/fs.o \
 		src/DeviceStream.o \
@@ -76,7 +76,8 @@ DEV   = src/dev/Driver.o \
 	    src/dev/DeviceList.o \
 	    src/dev/random.o \
 	    src/dev/SysTimer.o \
-	    src/dev/Framebuffer.o
+	    src/dev/Framebuffer.o \
+	    src/dev/ArmTimer.o
  
 
 PROMPT = " -> "
@@ -104,6 +105,5 @@ link:
 	$(TOB) $(OBJGLAGS)
 clean:
 	$(RM) $(SOURCES) $(ELFNAME) $(KERNEL)
-test:
-	qemu-system-arm -kernel csos.elf -cpu arm1176 -m 256 -M raspi  -serial telnet:localhost:1235,server
+
 

@@ -4,8 +4,6 @@
 #include <dev/Driver.hpp>
 #include <iob.h>
 
-#define RPI_SYSTIMER_BASE       0x20003000
-
 namespace dev
 {
 	struct rpi_sys_timer_t
@@ -25,8 +23,8 @@ namespace dev
 
 		virtual bool Probe();
 		virtual int Sleep(uint32_t us );
-		//virtual char ReadChar();
-		//virtual uint64_t Read(uint8_t *data, uint64_t offset, uint64_t size);
+
+		virtual void WriteChar(char c)  { Sleep((uint32_t)c); }
 	private:
 		rpi_sys_timer_t* m_rpiSystemTimer;
 	};

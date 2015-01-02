@@ -43,7 +43,7 @@ namespace dev
 		unsigned m_fbseg;
 		char* m_mem;
 
-		::FrameBuffer *m_fb;
+		KernelFrameBuffer *m_fb;
 
 		unsigned int xpos=0, ypos=0;
 

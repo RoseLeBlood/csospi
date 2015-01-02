@@ -6,6 +6,7 @@
 #include <IStream.hpp>
 #include <string.h>
 
+
 namespace dev
 {
 	class Driver 
@@ -38,15 +39,15 @@ namespace dev
 	
 		virtual uint64_t Read(uint8_t *data, uint64_t offset, uint64_t size) { return 0; }
 		virtual uint64_t Write(uint8_t *data, uint64_t offset, uint64_t size) { return 0; }
-		
+
 		virtual bool CanRead() { return m_canread; }
 		virtual bool CanWrite() { return m_canwrite; }
 		virtual bool UseUpdate() { return m_mustswap; }
 
-		virtual void callback(register_t* state) { }
+		virtual register_t* callback(register_t* state) { }
 		virtual void UpdateBuffer() { }
 	protected:
-		static void driver_callback(register_t* state, void* userdata);
+		static register_t* driver_callback(register_t* state, void* userdata);
 	protected:
 		char	m_Name[128];
 		char	m_DevName[128];
