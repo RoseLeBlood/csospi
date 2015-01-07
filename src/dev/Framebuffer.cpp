@@ -147,10 +147,11 @@ unsigned char font8x8_basic[128][8] = {
 bool Framebuffer::Probe()
 {
 	m_fb = Kernel::Instance().GetKernelFrambuffer();
+	m_fb->iDepth = 24;
 
 	if(set_framebuffer(m_fb))
 	{
-		m_mem = (char *) m_fb->pFramebuffer;
+		m_mem = (unsigned char *) m_fb->pFramebuffer;
 
 		m_txtColor = 0xFFFFFF;
 		m_backColor = 0x000000;
@@ -159,6 +160,10 @@ bool Framebuffer::Probe()
 	}
 
 	return false;
+}
+void Framebuffer::Swap(unsigned char* buffer, uint32_t size)
+{
+	memcpy(m_mem, buffer, size);
 }
 void Framebuffer::put(char c)
 {
@@ -194,17 +199,15 @@ void Framebuffer::InternalWrite(char c)
 			xpos = (xpos + LIB_TAB_SIZE * CHARSIZE_X ) &  ~(LIB_TAB_SIZE * CHARSIZE_X - 1);
 			break;
 		case '\b':                            // -> backspace 
-			t = xpos + ypos * m_fb->ifbX; 
-			if(t > 1) t--;
 			
-			if(xpos > 0)
+			if(xpos > 4)
 			{
 				xpos -= CHARSIZE_X;
 			}
-			else if(ypos > 0)
+			else if(ypos > 4)
 			{
-				ypos -= 10;
-				xpos = m_fb->ifbX - 1;
+				ypos -= CHARSIZE_X + 2;
+				xpos = m_fb->ifbX - (CHARSIZE_Y + (CHARSIZE_X / 2));
 			}
 			put(' ');
 			break;
@@ -229,14 +232,8 @@ void Framebuffer::Clear()
 {
 	xpos = 4;
 	ypos = 4;
-	for(unsigned int y = 0; y < m_fb->ifbY; y+= 1)
-	{
-		for(unsigned int x = 0; x < m_fb->ifbX; x+= 1)
-		{
-			SetPixel(x,y,m_backColor);	
+	memset(m_mem, 0, m_fb->iSize);
 
-		}
-	}
 }
 void Framebuffer::SetPixel(unsigned long x, unsigned long y, uint32_t cl)
 {	
@@ -265,14 +262,14 @@ void Framebuffer::SetPixel16(unsigned long x, unsigned long y, uint32_t cl)
 }
 void Framebuffer::SetPixel24(unsigned long x, unsigned long y, uint32_t cl)
 {
-	register char *ptmp;
+	register unsigned char *ptmp;
 
 	if (x > m_fb->ifbX || y > m_fb->ifbY) return;
 
 	x = (x * (m_fb->iDepth >> 3));
 	y = (y * m_fb->iPitch);
 
-	char *asd = (char *)m_mem;
+	unsigned char *asd = (unsigned char *)m_mem;
 	ptmp = &asd[x+y];
 	ptmp[0] = cl & 0xff;
 	ptmp[1] = (cl>>8) & 0xff;
@@ -291,14 +288,14 @@ void Framebuffer::SetPixel16(unsigned long x, unsigned long y, int r, int g, int
 }
 void Framebuffer::SetPixel24(unsigned long x, unsigned long y, int r, int g, int b)
 {
-	register char *ptmp;
+	register unsigned char *ptmp;
 
 	if (x > m_fb->ifbX || y > m_fb->ifbY) return;
 
 	x = (x * (m_fb->iDepth >> 3));
 	y = (y * m_fb->iPitch);
 
-	char *asd = (char *)m_mem;
+	unsigned char *asd = (unsigned char *)m_mem;
 	ptmp = &asd[x+y];
 	ptmp[0] = r;
 	ptmp[1] = g;

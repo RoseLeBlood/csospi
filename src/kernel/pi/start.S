@@ -39,13 +39,13 @@ _start:
     ldr pc, _fast_interrupt_vector_h
 
 _reset_h:                           .word   _reset_
-_undefined_instruction_vector_h:    .word   undefined_instruction_vector
-_software_interrupt_vector_h:       .word   software_interrupt_vector
-_prefetch_abort_vector_h:           .word   prefetch_abort_vector
-_data_abort_vector_h:               .word   data_abort_vector
-_unused_handler_h:                  .word   _reset_
-_interrupt_vector_h:                .word   isr_handle
-_fast_interrupt_vector_h:           .word   fast_interrupt_vector
+_undefined_instruction_vector_h:    .word   .
+_software_interrupt_vector_h:       .word   .
+_prefetch_abort_vector_h:           .word   .
+_data_abort_vector_h:               .word   .
+_unused_handler_h:                  .word   .
+_interrupt_vector_h:                .word   .
+_fast_interrupt_vector_h:           .word   .
 
 _reset_:
     // We enter execution in supervisor mode. For more information on

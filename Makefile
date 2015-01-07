@@ -1,8 +1,8 @@
 ﻿ELFNAME=csos.elf
 KERNEL=csos.bin
 
-ASFLAGS = 
-CFLAGS = -Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mcpu=arm1176jzf-s -fpic -ffreestanding -Iinc -Iinc/klibc -nostdlib 
+ASFLAGS = -march=armv6 -mfloat-abi=hard -mfpu=vfp 
+CFLAGS = -Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6 -mfloat-abi=hard  -fpic -ffreestanding -Iinc -Iinc/klibc -nostdlib 
 LDFLAGS = -e 0x00000000 -T src/kernel/pi/link.ld -o $(ELFNAME)
 CXXFLAGS=-lang=c++ -fno-rtti -fuse-cxa-atexit -std=c++11 $(CFLAGS) 
 OBJGLAGS =  $(ELFNAME) -O binary $(KERNEL)
@@ -19,12 +19,11 @@ OBJS =  \
 	   src/kernel/mm.o \
 	   src/kernel/pmm.o \
 	   src/kernel/pi/main.o \
-	   src/kernel/pi/isr.o \
 	   src/kshell.o \
-	   src/kernel/pi/intr.o \
 	   src/kernel/pi/mailbox.o \
 	   src/kernel/pi/utils.o \
-	   src/kernel/pi/iob.o 
+	   src/kernel/pi/iob.o \
+	   src/softEvent/event.o src/gol.o
 
 AEBI = src/aebi/_udivsi3.o src/aebi/_divsi3.o
 
@@ -76,9 +75,9 @@ DEV   = src/dev/Driver.o \
 	    src/dev/DeviceList.o \
 	    src/dev/random.o \
 	    src/dev/SysTimer.o \
-	    src/dev/Framebuffer.o \
-	    src/dev/ArmTimer.o
+	    src/dev/Framebuffer.o 
  
+FB	  = src/Framebuffer/Buffer.o src/Framebuffer/GraphicDevice.o
 
 PROMPT = " -> "
 AR = @echo "   " $(PROMPT)  AR "    " $ && ar
@@ -91,7 +90,7 @@ RM = @echo "   " $(PROMPT) REM "   " $< && rm
 CP = @echo "   " $(PROMPT)  CP && cp
 OB = @echo "   " $(PROMPT) OB "   " $< && $(TOB)
 
-SOURCES=$(OBJS) $(KLIBC) $(KLIBCPP) $(DEV) $(FS) $(AEBI)
+SOURCES=$(OBJS) $(KLIBC) $(KLIBCPP) $(DEV) $(FS) $(AEBI) $(FB)
 
 all: $(SOURCES) link 
 .s.o:

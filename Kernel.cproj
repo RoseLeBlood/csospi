@@ -161,8 +161,15 @@
     <None Include="inc\kernel\utils.h" />
     <None Include="inc\dev\Framebuffer.hpp" />
     <None Include="src\dev\Framebuffer.cpp" />
-    <None Include="inc\dev\ArmTimer.hpp" />
-    <None Include="src\dev\ArmTimer.cpp" />
+    <None Include="inc\softEvent\event.hpp" />
+    <None Include="src\softEvent\event.cpp" />
+    <None Include="inc\gol.hpp" />
+    <None Include="inc\Framebuffer\GraphicDevice.hpp" />
+    <None Include="inc\Framebuffer\Buffer.hpp" />
+    <None Include="src\Framebuffer\Buffer.cpp" />
+    <None Include="src\Framebuffer\GraphicDevice.cpp" />
+    <None Include="src\gol.cpp" />
+    <None Include="gol.old.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -182,6 +189,11 @@
     <Folder Include="inc\dev\Bus\" />
     <Folder Include="src\dev\bus\" />
     <Folder Include="src\kernel\pi\" />
+    <Folder Include="inc\softEvent\" />
+    <Folder Include="src\softEvent\" />
+    <Folder Include="inc\test\" />
+    <Folder Include="inc\Framebuffer\" />
+    <Folder Include="src\Framebuffer\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\klibc\assert.c" />
@@ -210,7 +222,6 @@
     <Compile Include="src\kernel\pmm.c" />
     <Compile Include="src\sys\utsname.c" />
     <Compile Include="src\klibc\sleep.c" />
-    <Compile Include="src\kernel\pi\isr.c" />
     <Compile Include="src\kernel\pi\mailbox.c" />
     <Compile Include="src\kernel\pi\utils.c" />
     <Compile Include="src\kernel\pi\iob.c" />

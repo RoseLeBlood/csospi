@@ -4,8 +4,11 @@
 #include <iob.h>
 #include <kernel/kernel.hpp>
 #include <dev/SysTimer.hpp>
-
 extern "C" void* kernel_instance;
+
+
+extern "C" uint32_t end;
+
 #define SEC  1000000
 extern "C" int	 GetDeviceByNameEx(char* name, void** device)
 {
@@ -26,9 +29,41 @@ extern "C" void sleep(int sec)
 	dev::SysTimer* RandDevice = (dev::SysTimer*)GetDeviceByName("stmr0");
     if(RandDevice != NULL)
     {
-    	RandDevice->Sleep(SEC * sec);
+    	RandDevice->Sleep(sec);
     }
 }
+extern "C" void gotoxy(int x, int y)
+{
+    std::cout.gotoxy(x,y);
+}
+extern "C" void putchar	(const char c)
+{
+	std::cout << c;
+	
+}
+extern "C" void puts(const char *c)
+{
+	std::cout << c;
+}
+extern "C" void cls()
+{
+	std::cout.Clear();
+}
+extern "C" void setBackColor(uint8_t back)
+{
+	std::cout << (std::backcolor::backcolor_t)(back);
+}
+extern "C" void setFrontColor(uint8_t front)
+{
+	std::cout << (std::textcolor::textcolor_t)(front);
+}
+extern "C" int getch()
+{       
+    return std::cin.getChar();
+}
+
+extern "C" int SetTextColorStream(void* stream, uint16_t color);
+extern "C" int SetBackColorStream(void* stream, uint16_t color);
 extern "C" int WriteStream(void* stream, uint8_t* data, uint64_t offset, uint64_t size)
 {
 	IStream *str = (IStream*)stream;

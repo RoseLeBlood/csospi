@@ -30,6 +30,9 @@ namespace dev
 		virtual uint64_t Write(uint8_t *data, uint64_t offset, uint64_t size);
 
 		virtual void Clear();
+		virtual void Swap(unsigned char* buffer, uint32_t size);
+
+		KernelFrameBuffer* GetKernelFrambuffer() { return m_fb; }
 	protected:
 		void SetPixel16(unsigned long x, unsigned long y, uint32_t cl);
 		void SetPixel24(unsigned long x, unsigned long y, uint32_t cl);
@@ -41,7 +44,7 @@ namespace dev
 		virtual void InternalWrite(char c);
 	protected:
 		unsigned m_fbseg;
-		char* m_mem;
+		unsigned char* m_mem;
 
 		KernelFrameBuffer *m_fb;
 

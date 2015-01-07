@@ -21,7 +21,8 @@ int 			getchar				();
 int 			getch				();
 char 			*gets				(char *);
 char 			*itox				(int);
-void 			cls();
+void 			cls					();
+void			gotoxy				(int x, int y);
 
 int             snprintf            (char* s, size_t n, const char* format, ...);
 int             sprintf         	(char* s, const char* format, ...);

@@ -10,7 +10,7 @@ extern "C" {
 
 #include <stddef.h>
 
-#define RAND_MAX                (__INT_MAX__ - 1)
+
 
 typedef struct  { int quot; int rem; }                          div_t;
 typedef struct  { long quot; long rem; }                        ldiv_t;
@@ -27,9 +27,12 @@ long double                     strtold (const char* nptr, char** endptr);
 long int                                strtol          (const char* nptr, char** endptr, int base);
 long long int                   strtoll (const char* nptr, char** endptr, int base);
 unsigned long int               strtoul (const char* nptr, char** endptr, int base);
-unsigned long long int  strtoull        (const char* nptr, char** endptr, int base);    
+unsigned long long int  		strtoull        (const char* nptr, char** endptr, int base);    
 int                                     rand            ();
 void                                    srand           (unsigned int seed);
+int										rand_m(int min, int max);
+
+
 void*                           bsearch (const void* key, const void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
 void                                    qsort           (void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
 int                                     abs             (int j);

@@ -8,6 +8,7 @@
 #include <cmdParse.h>
 #include <kernel/mm.h>
 
+#include <softEvent/event.hpp>
 
 void* kernel_instance;
 uint32_t initial_esp;
@@ -15,7 +16,6 @@ uint32_t initial_esp;
 extern "C" void kernel_shell();
 extern "C" int __bss_start__;
 extern "C" int __bss_end__;
-extern "C" void _enable_interrupts();
 
 Kernel::Kernel(uint64_t system_ram, uint64_t gpu_ram, KernelFrameBuffer *fb) 
 {
@@ -42,8 +42,7 @@ int Kernel::RunKernel(int args, char** argv)
   	std::cout << std::textcolor::LightGrey << "CS/Os5-ARM on Raspberry Pi\n" << "CPU-Freq: " << get_cpu_freq() << " Mhz\n";
   	std::cout << "RAM/VRAM: " << (uint32_t)(m_sram / 1024 / 1024) << "/" << (uint32_t)(m_vram / 1024 / 1024) << " MB\n";
 
-
-  	//kernel_shell();
+  	kernel_shell();
 	for(;;) ;
 	return 0;
 }
@@ -59,7 +58,6 @@ extern "C" int kernel_main(int r0, unsigned int r1, unsigned int r2 )
 	uint32_t gpu_ram = get_video_mem();
 
     mm_init(system_ram);
-    init_isr();
 
 	kernel_instance = new Kernel(system_ram, gpu_ram, get_framebuffer_info());
 

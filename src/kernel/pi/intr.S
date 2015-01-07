@@ -1,43 +1,42 @@
 ﻿.arm
 .extern isr_handle
 .global interrupt_vector
+.globl dmb
+
+#define ARM_MODE_SYS    0x1F
 
 interrupt_vector:
-sub     r14, #4
-/* Nicht gebankte Register speichern */
-push    {r0 - r12, r14}
+.func interrupt_vector
 
-/* Supervisor-R13/R14/SPSR und CPSR speichern */
-msr     cpsr_ctl, #0xD3
-mrs     r1, spsr
-mov     r2, r13
-mov     r3, r14
-msr     cpsr_ctl, #0xD2
-mrs     r0, spsr
-push    {r0 - r3}
+	sub lr, lr, #4
+	 
+	srsdb #ARM_MODE_SYS!
+	cpsid if, #ARM_MODE_SYS
 
-/* User-R13/R14 speichern */
-stmdb   r13, {r13, r14}^
-sub     r13, #8
+	push {r0-r4, r12, lr}
 
-/* IRQ behandeln */
-mov     r0, r13
-bl      isr_handle
-mov     r13, r0
+	/* Execute a data memory barrier, as per the BCM2835 documentation.  */
+	bl dmb
 
-/* User-R13/R14 laden */
-ldmia   r13, {r13, r14}^
-add     r13, #8
+	/* Call the C interrupt dispatching code. */
+	bl isr_handle
 
-/* Supervisor-R13/R14/SPSR und CPSR laden */
-pop     {r0 - r3}
-msr     spsr_all, r0
-msr     cpsr_ctl, #0xD3
-msr     spsr_all, r1
-mov     r13, r2
-mov     r14, r3
-msr     cpsr_all, #0xD2
+	/* Execute a data memory barrier, as per the BCM2835 documentation.  */
+	bl dmb
 
-/* Nicht gebankte Register laden und zurÃ¼ckkehren */
-pop     {r0 - r12, r14}
-movs    r15, r14
+
+	add sp, sp, r4
+
+	pop {r0-r4, r12, lr}
+
+	rfeia sp!
+	.endfunc
+
+
+
+dmb:
+	.func dmb
+	mov	r12, #0
+	mcr	p15, 0, r12, c7, c10, 5
+	mov 	pc, lr
+	.endfunc

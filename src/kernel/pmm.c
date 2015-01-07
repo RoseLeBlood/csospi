@@ -187,11 +187,8 @@ void pmm_init(uint32_t mem)
                 pmm_allocated[x].dim = 0;
         }
      	
-        pmm_reserve(0x00000000, 0x000FFFFF);	
-        pmm_reserve(0x00100000, 0x003FFFFF); 	
-        pmm_reserve(0x00F00000, 0x00FFFFFF);	
-        pmm_reserve(0x0C000000, 0x0FFFFFFF);  
-        pmm_reserve(0x20000000, 0x2000FFFF);	
+        pmm_reserve(0x00000000, 0x000FFFFF);	  
+        //pmm_reserve(0x20000000, 0x2000FFFF);	
 }
 
 

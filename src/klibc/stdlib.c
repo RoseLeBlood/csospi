@@ -46,16 +46,9 @@ long long int                   strtoll (const char* nptr, char** endptr, int ba
 unsigned long int               strtoul (const char* nptr, char** endptr, int base);
 unsigned long long int  strtoull        (const char* nptr, char** endptr, int base);
 
-int rand() 
-{
-        _rand_value = _rand_value * 110351524 + 12345;
-        return (_rand_value % (RAND_MAX + 1));
-}
 
-void srand(unsigned int seed) 
-{
-        _rand_value = seed;
-}
+
+
 
 void*                           bsearch (const void* key, const void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
 void                                    qsort           (void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
@@ -136,4 +129,35 @@ size_t  wcstombs(register char *s, register const wchar_t *pwcs, size_t n)
 	                  break;
 	  }
 	  return n - i - 1;
+}
+void srand(unsigned int seed) 
+{
+      _rand_value = seed;
+}
+int rand() 
+{
+	unsigned int next = _rand_value;
+  	int result;
+
+ 	next *= 1103515245;
+  	next += 12345;
+  	result = (unsigned int) (next / 65536) % 2048;
+
+  	next *= 1103515245;
+  	next += 12345;
+  	result <<= 10;
+ 	result ^= (unsigned int) (next / 65536) % 1024;
+
+  	next *= 1103515245;
+  	next += 12345;
+  	result <<= 10;
+  	result ^= (unsigned int) (next / 65536) % 1024;
+
+  	_rand_value = next;
+
+   	return result;
+}
+int rand_m(int min, int max)
+{
+   	return rand() % (max - min + 1) + min;
 }

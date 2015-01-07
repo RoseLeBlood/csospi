@@ -31,17 +31,14 @@ namespace dev
 		
 	Driver::~Driver()
 	{
-		set_handler(m_irq, NULL);
 	}
 	void  Driver::setHandler(uint8_t irq)
 	{
-		m_irq = irq;
-		set_handlerex(irq, driver_callback, this);
+
 	}
 	void Driver::unsetHandler(uint8_t irq)
 	{
-		m_irq = irq;
-		set_handler(irq, NULL);
+
 	}
 	char * Driver::getDevName()
 	{
@@ -49,9 +46,6 @@ namespace dev
 	}
 	register_t* Driver::driver_callback(register_t* state, void* userdata)
 	{
-		Driver* drv = (Driver*)userdata;
-		if(drv != NULL)
-			return drv->callback(state);
 		return state;
 	}
 }

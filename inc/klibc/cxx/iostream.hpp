@@ -83,7 +83,7 @@ namespace std
 		
 		void SetDevice(const char* dev);
 		void Clear();
-		//void SwapBuffer(); // only Framebuffer 
+		OStream& gotoxy(int x, int y);
 	private:
 		std::flags::flags_t current_flags;
 	private:

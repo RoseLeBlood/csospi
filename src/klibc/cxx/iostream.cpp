@@ -4,35 +4,9 @@
 //#include <dev/key_input.hpp>
 
 
-extern "C" void putchar	(const char c)
-{
-	std::cout << c;
-	
-}
-extern "C" void puts(const char *c)
-{
-	std::cout << c;
-}
-extern "C" void cls()
-{
-	std::cout.Clear();
-}
-extern "C" void setBackColor(uint8_t back)
-{
-	std::cout << (std::backcolor::backcolor_t)(back);
-}
-extern "C" void setFrontColor(uint8_t front)
-{
-	std::cout << (std::textcolor::textcolor_t)(front);
-}
 
-extern "C" int SetTextColorStream(void* stream, uint16_t color);
-extern "C" int SetBackColorStream(void* stream, uint16_t color);
 /* getch */
-extern "C" int getch()
-{       
-    return std::cin.getChar();
-}
+
 namespace std
 {
 	OStream cout; 
@@ -190,11 +164,12 @@ namespace std
 		*this << str.c_str();
 		return *this;
 	}
-	/*OStream& OStream::operator <<(std::basic_wstring<wchar_t> wstr)
+	OStream& OStream::gotoxy(int x, int y)
 	{
-		*this  << std::StringFromWString(wstr);
+		dev::Driver* dev = ((Kernel*)kernel_instance)->GetDriver(m_device);
+		if(dev != 0) dev->GotoXY(x, y);
 		return *this;
-	}*/
+	}
 		
 	OStream& OStream::operator <<(std::backcolor::backcolor_t cl)
 	{

@@ -51,9 +51,6 @@ bool SerialOut::Probe()
 	outi(GPIO::UART0_CR, (1 << 0) | (1 << 8) | (1 << 9));
 
 
-	setHandler(BCM2835_IRQ_ID_UART);
-	set_on_irq(BCM2835_IRQ_ID_UART);
-
 	return true;
 	
 }

@@ -6,15 +6,18 @@
 #include <sleep.h>
 #include <kernel/kernel.hpp>
 #include <dev/SysTimer.hpp>
+#include <gol.hpp>
+
+#define SHELLCOMMAND(x)		int (x) (int argc, char **argv)
 
 typedef struct
 {
         char    Name[128];
         char    Description[512];
-        int     (*Call)(int argc, char **argv);
+        SHELLCOMMAND((*Call));
 } ShellCommand;
 
-#define SHELLCOMMAND(x)		int (x) (int argc, char **argv)
+
 
 SHELLCOMMAND(ShellHelp); //                  (int argc, char **argv);
 SHELLCOMMAND(ShellShutdown); //               (int argc, char **argv);
@@ -34,6 +37,7 @@ ShellCommand _commands[] =
        { "now", "Current date time", ShellNow },
        { "rand", "Random Number", ShellRand },
        { "sleep", "Test Raspberry Pi Timer Device", ShellSleep },
+       { "gol", "Game Of Life Framebuffer Test", gameOfLife },
 };
 #define _COMMANDS_N             (sizeof(_commands) / sizeof(ShellCommand))
 
@@ -159,7 +163,7 @@ int ShellRand(int argc, char **argv)
         //void* RandDevice = GetDeviceByName("rand0");
        // if(RandDevice != NULL)
         //{
-        	std::cout << "\n" << rand() << "\n";
+        	std::cout << rand() << "\n";
        // }
 	return 0;
 }

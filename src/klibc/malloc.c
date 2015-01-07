@@ -29,14 +29,22 @@ void *malloc(size_t size)
 
         return (void *) mm_alloc(size);
 }
+void **malloc2d(int row, int col, size_t size)
+{
+	void **a;
+	a=(void **) malloc(row * size);
 
+	for(int i=0;i < row; i++)
+	    a[i]=(void *) malloc(col * size);
+	return a;
+}
 
 /* realloc */
 void *realloc(void *adr, size_t size)
 {
         void *new = (void *) mm_alloc(size);
         memcpy(new, adr, size);
-        //free(adr);
+        free(adr);
 
         return (void *) new;
 }
@@ -48,4 +56,12 @@ void free(void *adr)
         allocindex--;
         
         mm_free(adr);
+}
+void free2d(void** array, int row, int col)
+{
+	for (int i = 0; i < row; i++)
+	{
+   		free(array[i]);
+	}
+	free(array);
 }

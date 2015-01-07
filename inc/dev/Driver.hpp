@@ -7,8 +7,23 @@
 #include <string.h>
 
 
+
 namespace dev
 {
+	class Driver ;
+	typedef void (*driverCallback)(dev::Driver* sender, void* data);
+
+	struct driverCallBackStruct
+	{
+		driverCallback call;
+		void* userData;
+	};
+
+	class DriverCallBack
+	{
+
+
+	};
 	class Driver 
 	{
 	public:
@@ -36,7 +51,7 @@ namespace dev
 		virtual void Clear() { }
 		virtual void WriteChar(char c)  { }
 		virtual char ReadChar() { return ' '; }
-	
+
 		virtual uint64_t Read(uint8_t *data, uint64_t offset, uint64_t size) { return 0; }
 		virtual uint64_t Write(uint8_t *data, uint64_t offset, uint64_t size) { return 0; }
 
@@ -44,16 +59,27 @@ namespace dev
 		virtual bool CanWrite() { return m_canwrite; }
 		virtual bool UseUpdate() { return m_mustswap; }
 
-		virtual register_t* callback(register_t* state) { }
+		virtual register_t* callback(register_t* state) 
+		{ 
+			if(m_pdriverCallback.call != NULL) 
+				m_pdriverCallback.call(this, m_pdriverCallback.userData); 
+		}
 		virtual void UpdateBuffer() { }
+
+		virtual void SetCallback(driverCallback call, void* userdata)
+		{ 
+			m_pdriverCallback.call = call; 
+			m_pdriverCallback.userData = userdata;
+		}
 	protected:
 		static register_t* driver_callback(register_t* state, void* userdata);
 	protected:
-		char	m_Name[128];
-		char	m_DevName[128];
-		bool    m_proved;
-		int 	m_irq;
-		bool 	m_canread, m_canwrite, m_mustswap;
+		char			m_Name[128];
+		char			m_DevName[128];
+		bool    		m_proved;
+		int 			m_irq;
+		bool 			m_canread, m_canwrite, m_mustswap;
+		driverCallBackStruct	m_pdriverCallback;
 	protected:
 	    uint32_t m_off;
 	    uint32_t m_pos;
