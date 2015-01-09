@@ -8,6 +8,8 @@
 #include <dev/SysTimer.hpp>
 #include <gol.hpp>
 
+#include <hash.h>
+
 #define SHELLCOMMAND(x)		int (x) (int argc, char **argv)
 
 typedef struct
@@ -27,6 +29,9 @@ SHELLCOMMAND(ShellNow); //					(int argc, char **argv);
 SHELLCOMMAND(ShellDev); //					(int argc, char **argv);
 SHELLCOMMAND(ShellRand); //					(int argc, char **argv);
 SHELLCOMMAND(ShellSleep);
+SHELLCOMMAND(ShellHash);
+SHELLCOMMAND(ShellSwitch);
+SHELLCOMMAND(ShellExit);
 
 ShellCommand _commands[] =
 {
@@ -38,6 +43,9 @@ ShellCommand _commands[] =
        { "rand", "Random Number", ShellRand },
        { "sleep", "Test Raspberry Pi Timer Device", ShellSleep },
        { "gol", "Game Of Life Framebuffer Test", gameOfLife },
+       { "hash", "MD5 Hash Test", ShellHash },
+       { "switch", "Console output switch ( uart0/fb0 )", ShellSwitch },
+       { "exit", "Exit", ShellExit },
 };
 #define _COMMANDS_N             (sizeof(_commands) / sizeof(ShellCommand))
 
@@ -75,16 +83,16 @@ void drawPreamble(int ret)
 	if(ret != 0)
 	{
 		std::cout << std::textcolor::Red << ret << " " 
-				  << std::textcolor::White << "kshell "
+				  << std::textcolor::White  << std::cout.GetDevice() 
 				  << std::textcolor::LightBlue 
-			  	  << "/" << std::textcolor::LightGrey << " > " ;
+			  	  << "/" << std::textcolor::LightGrey << ">" ;
 		ret = 0;
 	}
 	else
 	{
-		std::cout << std::textcolor::White << "kshell "
+		std::cout << std::textcolor::White  << std::cout.GetDevice() 
 				  << std::textcolor::LightBlue 
-			  	  << "/" << std::textcolor::LightGrey << " > " ;
+			  	  << "/" << std::textcolor::LightGrey << ">" ;
 	}
 }
 int run()
@@ -117,10 +125,12 @@ extern "C" void kernel_shell()
         drawPreamble(run());
     }
 }
+
+
 SHELLCOMMAND(ShellSleep)
 {
-    std::cout << "\nWait Test";
-    sleep(3);
+    std::cout << "Wait Test";
+   	delay(3);
     std::cout << " OK" << "\n";
 
     return 0;
@@ -159,12 +169,8 @@ int ShellHelp(int argc, char **argv)
 }
 int ShellRand(int argc, char **argv)
 {
-        //GetDeviceByName
-        //void* RandDevice = GetDeviceByName("rand0");
-       // if(RandDevice != NULL)
-        //{
-        	std::cout << rand() << "\n";
-       // }
+    std::cout << "Interval(10,50): " << rand_m(10, 51) << "\n";
+
 	return 0;
 }
 int ShellShutdown(int argc, char **argv)
@@ -209,3 +215,49 @@ int ShellDev					(int argc, char **argv)
 	
 	return 0;
 }
+SHELLCOMMAND(ShellHash)
+{
+	char buf[260];
+	md5(" ", buf);
+	std::cout << "Hash Test fisrt hash from \" \" and second hash from \"Hallo Welt!\"" << std::endl;
+
+	std::cout << "md5(" << std::textcolor::Green << buf << ")" << std::textcolor::LightGrey << "\n";
+	md5("Hallo Welt", buf);
+	std::cout << "md5(" << std::textcolor::Green << buf << ")" << std::textcolor::LightGrey << "\n\n";
+
+	std::cout << "adler32(" << std::textcolor::Green << adler32(1, " ", strlen(" ")) <<  std::textcolor::LightGrey << ")" <<  "\n";
+	std::cout << "adler32(" << std::textcolor::Green << adler32(1, "Hallo Welt!", strlen("Hallo Welt!")) <<  std::textcolor::LightGrey << ")" <<  "\n\n";
+
+	//querhash
+	std::cout << "quer(" << std::textcolor::Green << querhash(" ", strlen(" ")) <<  std::textcolor::LightGrey << ")" <<  "\n";
+	std::cout << "quer(" << std::textcolor::Green << querhash("Hallo Welt!", strlen("Hallo Welt!")) <<  std::textcolor::LightGrey << ")" <<  "\n\n";
+
+	crc16s(" ", strlen(" "), buf);
+	std::cout << "crc16s(" << std::textcolor::Green << buf <<  std::textcolor::LightGrey << ")" <<  "\n";
+	crc16s("Hallo Welt!", strlen("Hallo Welt!"), buf);
+	std::cout << "crc16s(" << std::textcolor::Green << buf <<  std::textcolor::LightGrey << ")" <<  "\n\n";
+
+	crc32(" ", strlen(" "), buf);
+	std::cout << "crc32(" << std::textcolor::Green << buf <<  std::textcolor::LightGrey << ")" <<  "\n";
+	crc32("Hallo Welt!", strlen("Hallo Welt!"), buf);
+	std::cout << "crc32(" << std::textcolor::Green << buf <<  std::textcolor::LightGrey << ")" <<  "\n";
+
+	return 0;
+}
+SHELLCOMMAND(ShellSwitch)
+{
+	static bool uart = true;
+
+	std::cout.SetDevice(uart ? "fb0" : "uart0");
+
+	uart = !uart;
+	return 0;
+}
+SHELLCOMMAND(ShellExit)
+{
+	std::cout << std::textcolor::Red << "Bye Bye Raspi User";
+	halt();
+	return 0;
+}
+
+

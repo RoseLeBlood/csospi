@@ -30,7 +30,7 @@ unsigned long int               strtoul (const char* nptr, char** endptr, int ba
 unsigned long long int  		strtoull        (const char* nptr, char** endptr, int base);    
 int                                     rand            ();
 void                                    srand           (unsigned int seed);
-int										rand_m(int min, int max);
+int										rand_m(unsigned int min, unsigned int max);
 
 
 void*                           bsearch (const void* key, const void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));

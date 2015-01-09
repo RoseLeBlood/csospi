@@ -7,7 +7,7 @@
 #endif
 
 #ifndef __SIZEOF_SHORT__
-# define __SIZEOF_SHORT__               2
+# define __SIZEOF_SHORT__               sizeof(short)
 #endif
 
 #endif

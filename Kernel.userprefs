@@ -1,13 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="inc/gol.hpp">
+  <MonoDevelop.Ide.Workbench ActiveDocument="inc/kernel/isr.h">
     <Files>
-      <File FileName="inc/gol.hpp" Line="8" Column="8" />
-      <File FileName="src/kshell.cpp" Line="17" Column="17" />
-      <File FileName="src/kernel/pi/main.cpp" Line="11" Column="11" />
-      <File FileName="inc/klibc/stdlib.h" Line="1" Column="1" />
-      <File FileName="src/klibc/stdlib.c" Line="38" Column="38" />
-      <File FileName="src/klibc/_extern.cpp" Line="1" Column="1" />
+      <File FileName="src/kernel/pi/atag.c" Line="24" Column="24" />
+      <File FileName="src/kernel/pi/mailbox.c" Line="1" Column="1" />
+      <File FileName="Makefile" Line="28" Column="28" />
+      <File FileName="inc/kernel/utils.h" Line="1" Column="1" />
+      <File FileName="src/kernel/pi/main.cpp" Line="2" Column="2" />
+      <File FileName="src/kernel/pi/power.c" Line="1" Column="1" />
+      <File FileName="inc/kernel/isr.h" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

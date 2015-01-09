@@ -82,6 +82,8 @@ namespace std
 		std::flags::flags_t Getflags()		{ return current_flags; } 
 		
 		void SetDevice(const char* dev);
+		char* GetDevice();
+
 		void Clear();
 		OStream& gotoxy(int x, int y);
 	private:
@@ -107,6 +109,7 @@ namespace std
 		char getChar();
 		
 		void SetDevice(const char* dev);
+		char* GetDevice();
 	private:
 		unsigned int getString(bool hide = false);
 	private:

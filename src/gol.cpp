@@ -1,7 +1,7 @@
 ﻿#include <gol.hpp>
 
-#define BOARD_WIDTH		800
-#define BOARD_HEIGHT	600
+#define BOARD_WIDTH	400
+#define BOARD_HEIGHT	400
 
 GameOfLife::GameOfLife()
 {
@@ -10,9 +10,8 @@ GameOfLife::GameOfLife()
 }
 GameOfLife::~GameOfLife()
 {
-	free2d((void**)board, BOARD_WIDTH, BOARD_HEIGHT);
-	free2d((void**)newboard, BOARD_WIDTH, BOARD_HEIGHT);
 
+	printf("JALL");
 }
 void GameOfLife::Init()
 {
@@ -30,7 +29,7 @@ void GameOfLife::Init()
 		for (j=0; j<BOARD_HEIGHT; j++)
 		{ 
 
-			board[i][j] = rand_m(0,1);
+			board[i][j] = rand_m(0,2);
 		}
 	}
 }
@@ -51,14 +50,18 @@ void GameOfLife::Move()
 		board[i][j] = newboard[i][j];
 	}
 }
+uint32_t Farbverlauf(uint32_t Farbe1, uint32_t Farbe2, int fInterpolation) 
+{ 
+    return rand_m(Farbe1, Farbe2);
+}
 void GameOfLife::Draw()
 {
-
 	for (int j=0; j<BOARD_HEIGHT; j++) 
 	{
 		for (int i=0; i<BOARD_WIDTH; i++) 
 		{
-			m_pBuffer->Pixel(i,j, (board[i][j] ? 0x00FF00 * m_rounds : 0x000000) );
+			if(board[i][j])
+				m_pBuffer->Pixel(i,j, rand_m(0x010101, 0xFFFFFF) );
 		}
 	}
     
@@ -73,7 +76,12 @@ void GameOfLife::Run()
 		Draw();
 		m_pDevice->SwapBuffer(m_pBuffer);
 	}
-    gotoxy(4,4);
+	cls();
+
+	free2d((void**)board, BOARD_WIDTH, BOARD_HEIGHT);
+	free2d((void**)newboard, BOARD_WIDTH, BOARD_HEIGHT);
+
+
     printf("Bitte druecken Sie eine Taste\n");
     getch();
 }

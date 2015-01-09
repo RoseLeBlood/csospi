@@ -71,21 +71,6 @@ extern void puts(const char *str);
 
 
 
-
-/* printf */
-int printf(const char *format, ...)
-{
-	char str[260] = { 0 };
-	
-	va_list ap;
-    va_start(ap, format);
-    int n = vsprintf(str, format, ap);
-    va_end(ap);
-    
-    puts(str);
-        
-    return n;
-}
 int scanf(const char *format, ...)
 {
         int len = 0;
@@ -185,15 +170,6 @@ int snprintf(char* str, size_t size, const char* format, ...)
         va_list ap;
         va_start(ap, format);
         int n = vsnprintf(str, size, format, ap);
-        va_end(ap);
-        return n;
-}
-
-int sprintf(char* str, const char* format, ...) 
-{
-        va_list ap;
-        va_start(ap, format);
-        int n = vsprintf(str, format, ap);
         va_end(ap);
         return n;
 }

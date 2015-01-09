@@ -271,9 +271,9 @@ void Framebuffer::SetPixel24(unsigned long x, unsigned long y, uint32_t cl)
 
 	unsigned char *asd = (unsigned char *)m_mem;
 	ptmp = &asd[x+y];
-	ptmp[0] = cl & 0xff;
+	ptmp[2] = cl & 0xff;
 	ptmp[1] = (cl>>8) & 0xff;
-	ptmp[2] = (cl>>16) & 0xff;
+	ptmp[0] = (cl>>16) & 0xff;
 }
 void Framebuffer::SetPixel16(unsigned long x, unsigned long y, int r, int g, int b)
 {
@@ -297,9 +297,9 @@ void Framebuffer::SetPixel24(unsigned long x, unsigned long y, int r, int g, int
 
 	unsigned char *asd = (unsigned char *)m_mem;
 	ptmp = &asd[x+y];
-	ptmp[0] = r;
+	ptmp[0] = b;
 	ptmp[1] = g;
-	ptmp[2] = b;
+	ptmp[2] = r;
 }
 void Framebuffer::WriteChar(char c)
 {

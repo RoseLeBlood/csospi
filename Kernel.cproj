@@ -169,7 +169,13 @@
     <None Include="src\Framebuffer\Buffer.cpp" />
     <None Include="src\Framebuffer\GraphicDevice.cpp" />
     <None Include="src\gol.cpp" />
-    <None Include="gol.old.hpp" />
+    <None Include="inc\klibc\hash\md5.h" />
+    <None Include="inc\klibc\hash\adler32.h" />
+    <None Include="inc\klibc\hash.h" />
+    <None Include="inc\klibc\hash\utils.h" />
+    <None Include="inc\klibc\hash\crc.h" />
+    <None Include="src\kernel\pi\halt.S" />
+    <None Include="inc\kernel\power.h" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -194,6 +200,8 @@
     <Folder Include="inc\test\" />
     <Folder Include="inc\Framebuffer\" />
     <Folder Include="src\Framebuffer\" />
+    <Folder Include="src\klibc\hash\" />
+    <Folder Include="inc\klibc\hash\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\klibc\assert.c" />
@@ -226,5 +234,13 @@
     <Compile Include="src\kernel\pi\utils.c" />
     <Compile Include="src\kernel\pi\iob.c" />
     <Compile Include="src\klibc\sqrtf.c" />
+    <Compile Include="src\klibc\hash\md5.c" />
+    <Compile Include="src\klibc\hash\adler32.c" />
+    <Compile Include="src\klibc\hash\util.c" />
+    <Compile Include="src\klibc\hash\crc.c" />
+    <Compile Include="src\klibc\sprintf.c" />
+    <Compile Include="src\kernel\pi\power.c" />
+    <Compile Include="src\kernel\pi\atag.c" />
+    <Compile Include="src\kernel\pi\isr.c" />
   </ItemGroup>
 </Project>

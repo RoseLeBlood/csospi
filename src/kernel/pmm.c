@@ -188,7 +188,8 @@ void pmm_init(uint32_t mem)
         }
      	
         pmm_reserve(0x00000000, 0x000FFFFF);	  
-        //pmm_reserve(0x20000000, 0x2000FFFF);	
+        pmm_reserve(0x20000000, 0x2000FFFF);	
+        pmm_reserve(0x54410001, 0x5441000F);
 }
 
 

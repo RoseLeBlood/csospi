@@ -7,7 +7,7 @@ uint32_t allocindex;
 
 
 /* alloc and full with zeros */
-void *calloc(size_t size2, size_t size)
+void *calloc(size_t num, size_t size)
 {
         size_t x;
         char *adr = (char *) mm_alloc(size);

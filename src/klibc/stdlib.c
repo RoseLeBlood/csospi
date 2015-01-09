@@ -153,11 +153,13 @@ int rand()
   	result <<= 10;
   	result ^= (unsigned int) (next / 65536) % 1024;
 
+
   	_rand_value = next;
 
    	return result;
 }
-int rand_m(int min, int max)
+int rand_m(uint32_t min, uint32_t max)
 {
-   	return rand() % (max - min + 1) + min;
+   	int random = rand() % (max-min) + min;
+    return random;
 }

@@ -1,42 +1,23 @@
-﻿.arm
-.extern isr_handle
-.global interrupt_vector
-.globl dmb
-
-#define ARM_MODE_SYS    0x1F
-
-interrupt_vector:
-.func interrupt_vector
-
-	sub lr, lr, #4
-	 
-	srsdb #ARM_MODE_SYS!
-	cpsid if, #ARM_MODE_SYS
-
-	push {r0-r4, r12, lr}
-
-	/* Execute a data memory barrier, as per the BCM2835 documentation.  */
-	bl dmb
-
-	/* Call the C interrupt dispatching code. */
-	bl isr_handle
-
-	/* Execute a data memory barrier, as per the BCM2835 documentation.  */
-	bl dmb
+﻿.globl enable
+.globl disable
+.globl restore
 
 
-	add sp, sp, r4
-
-	pop {r0-r4, r12, lr}
-
-	rfeia sp!
+enable:
+	.func enable
+	cpsie i
+	mov pc, lr
 	.endfunc
 
+disable:
+	.func disable
+	mrs r0, cpsr
+	cpsid i
+	mov pc, lr
+	.endfunc
 
-
-dmb:
-	.func dmb
-	mov	r12, #0
-	mcr	p15, 0, r12, c7, c10, 5
-	mov 	pc, lr
+restore:
+	.func restore
+	msr cpsr_c, r0
+	mov pc, lr
 	.endfunc

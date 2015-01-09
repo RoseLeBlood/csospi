@@ -39,50 +39,26 @@ _start:
     ldr pc, _fast_interrupt_vector_h
 
 _reset_h:                           .word   _reset_
-_undefined_instruction_vector_h:    .word   .
-_software_interrupt_vector_h:       .word   .
-_prefetch_abort_vector_h:           .word   .
-_data_abort_vector_h:               .word   .
-_unused_handler_h:                  .word   .
-_interrupt_vector_h:                .word   .
-_fast_interrupt_vector_h:           .word   .
+_undefined_instruction_vector_h:    .word   undefined_instruction_vector
+_software_interrupt_vector_h:       .word   software_interrupt_vector
+_prefetch_abort_vector_h:           .word   prefetch_abort_vector
+_data_abort_vector_h:               .word   data_abort_vector
+_unused_handler_h:                  .word   _reset_
+_interrupt_vector_h:                .word   interrupt_vector
+_fast_interrupt_vector_h:           .word   fast_interrupt_vector
 
 _reset_:
-    // We enter execution in supervisor mode. For more information on
-    // processor modes see ARM Section A2.2 (Processor Modes)
-
-    mov     r0, #0x8000
-    mov     r1, #0x0000
-    ldmia   r0!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    stmia   r1!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    ldmia   r0!,{r2, r3, r4, r5, r6, r7, r8, r9}
-    stmia   r1!,{r2, r3, r4, r5, r6, r7, r8, r9}
-
-    // We're going to use interrupt mode, so setup the interrupt mode
-    // stack pointer which differs to the application stack pointer:
-    mov r0, #(CPSR_MODE_IRQ | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
-    msr cpsr_c, r0
-    mov sp, #0x8000
-
-    // Switch back to supervisor mode (our application mode) and
-    // set the stack pointer towards the end of RAM. Remember that the
-    // stack works its way down memory, our heap will work it's way
-    // up memory toward the application stack.
-    mov r0, #(CPSR_MODE_SVR | CPSR_IRQ_INHIBIT | CPSR_FIQ_INHIBIT )
-    msr cpsr_c, r0
 
     // Set the stack pointer at the end of RAM.
     // Keep it within the limits and also keep it aligned to a 32-bit
     // boundary!
     mov     sp, #0x4000
-    // mov     sp, #(128 * (1024 * 1024)) - 4
-    //mov     sp, #(256 * (1024 * 1024)) - 4
-    //mov     sp, #(512 * (1024 * 1024)) - 4
 
     // The c-startup function which we never return from. This function will
     // initialise the ro data section (most things that have the const
     // declaration) and initialise the bss section variables to 0 (generally
     // known as automatics). It'll then call main, which should never return.
+
     bl      kernel_main
 
     // If main does return for some reason, just catch it and stay here.

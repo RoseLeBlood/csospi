@@ -1,8 +1,8 @@
 ﻿ELFNAME=csos.elf
 KERNEL=csos.bin
 
-ASFLAGS = -march=armv6 -mfloat-abi=hard -mfpu=vfp 
-CFLAGS = -Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6 -mfloat-abi=hard  -fpic -ffreestanding -Iinc -Iinc/klibc -nostdlib 
+ASFLAGS = -march=armv6zk -mcpu=arm1176jzf-s 
+CFLAGS = -Ofast -march=armv6zk -mcpu=arm1176jzf-s  -fpic -ffreestanding -Iinc -Iinc/klibc -nostdlib 
 LDFLAGS = -e 0x00000000 -T src/kernel/pi/link.ld -o $(ELFNAME)
 CXXFLAGS=-lang=c++ -fno-rtti -fuse-cxa-atexit -std=c++11 $(CFLAGS) 
 OBJGLAGS =  $(ELFNAME) -O binary $(KERNEL)
@@ -14,7 +14,7 @@ TOB=/opt/arm-bcm2708-linux-gnueabi/bin/arm-bcm2708-linux-gnueabi-objcopy
 
      
 OBJS =  \
-	   src/kernel/pi/start.o  \
+	   src/kernel/pi/start.o src/kernel/pi/intr.o src/kernel/pi/halt.o  \
 	   src/cmdParse.o \
 	   src/kernel/mm.o \
 	   src/kernel/pmm.o \
@@ -23,6 +23,8 @@ OBJS =  \
 	   src/kernel/pi/mailbox.o \
 	   src/kernel/pi/utils.o \
 	   src/kernel/pi/iob.o \
+	   src/kernel/pi/atag.o \
+	   src/kernel/pi/power.o \
 	   src/softEvent/event.o src/gol.o
 
 AEBI = src/aebi/_udivsi3.o src/aebi/_divsi3.o
@@ -51,7 +53,8 @@ KLIBC = \
     src/klibc/wctype.o \
     src/klibc/_extern.o \
     src/klibc/sleep.o \
-    src/klibc/sqrtf.o
+    src/klibc/sqrtf.o \
+    src/klibc/sprintf.o
         
 KLIBCPP = src/klibc/cxx/new.o \
 		  src/klibc/cxx/icxxabi.o \
@@ -79,6 +82,12 @@ DEV   = src/dev/Driver.o \
  
 FB	  = src/Framebuffer/Buffer.o src/Framebuffer/GraphicDevice.o
 
+HASH  = src/klibc/hash/md5.o \
+ 		src/klibc/hash/adler32.o \
+ 		src/klibc/hash/util.o \
+ 		src/klibc/hash/crc.o
+
+
 PROMPT = " -> "
 AR = @echo "   " $(PROMPT)  AR "    " $ && ar
 CD = @echo  $(PROMPT) CD "        " && cd
@@ -90,7 +99,7 @@ RM = @echo "   " $(PROMPT) REM "   " $< && rm
 CP = @echo "   " $(PROMPT)  CP && cp
 OB = @echo "   " $(PROMPT) OB "   " $< && $(TOB)
 
-SOURCES=$(OBJS) $(KLIBC) $(KLIBCPP) $(DEV) $(FS) $(AEBI) $(FB)
+SOURCES=$(OBJS) $(KLIBC) $(KLIBCPP) $(DEV) $(FS) $(AEBI) $(FB) $(HASH)
 
 all: $(SOURCES) link 
 .s.o:

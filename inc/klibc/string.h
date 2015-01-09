@@ -18,6 +18,8 @@ extern "C"
 #define FillMemory(d, c, n)	memset(d,c,n)
 #endif
 
+#define memlen(type, data) sizeof( data ) / sizeof( type )
+
 void*   memcpy  (void* s1, const void* s2, size_t n);
 void*	memcpyn (uint8_t* s1, unsigned int pos1, const uint8_t* s2, unsigned int pos2, size_t n);
 
@@ -40,11 +42,12 @@ char*   strtok  (char* s1, const char* s2);
 void*   memset  (void* s, int c, size_t n);
 size_t  strlen          (const char* s)                                                 __attribute__((pure));
 
+
 void * memclr(void * mem, size_t count);
 
 char *strdup (const char *s);
 long strtol(const char *str, char **endptr, int base);
-#define memcpy(d,s,n)                           __builtin_memcpy(d,s,n)
+/*#define memcpy(d,s,n)                           __builtin_memcpy(d,s,n)
 #define strcpy(d,s)                             __builtin_strcpy(d,s)
 #define strncpy(d,s,n)                          __builtin_strncpy(d,s,n);
 #define strcat(d,s)                             __builtin_strcat(d,s)
@@ -64,7 +67,7 @@ long strtol(const char *str, char **endptr, int base);
 #define strlen(s)                               __builtin_strlen(s)
 #define strdup(s)                               __builtin_strdup(s)
 #define strtol(s,e,b)							__builtin_strtol(s,e,b)
-#define memclr(m, c)							__builtin_memclr(m,c)
+#define memclr(m, c)							__builtin_memclr(m,c)*/
 
 #ifdef __cplusplus
 };

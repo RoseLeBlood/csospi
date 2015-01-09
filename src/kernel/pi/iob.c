@@ -35,14 +35,7 @@ void io_wait( void )
 {
    iodelay(150);
 }
-void disable()
-{
 
-}
-void halt()
-{
-
-}
 
 
 unsigned short inw(unsigned short port)

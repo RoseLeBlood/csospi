@@ -189,6 +189,10 @@ namespace std
 	{
 		strcpy(m_device, dev);
 	}
+    char* OStream::GetDevice()
+    {
+    	return m_device;
+    }
 	void OStream::Clear()
 	{
 		dev::Driver* dev = ((Kernel*)kernel_instance)->GetDriver(m_device);
@@ -250,6 +254,10 @@ namespace std
 		i = atoi(getstring());
 		return *this;
 	}
+    char* IStream::GetDevice()
+    {
+    	return m_device;
+    }
 	unsigned int IStream::getString(bool hide)
 	{						
 		char input = '\0';	

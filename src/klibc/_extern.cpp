@@ -24,14 +24,14 @@ extern "C" bool CPUID_IsSupport(uint32_t ext)
 	return false;
 }
 
-extern "C" void sleep(int sec)
+/*extern "C" void sleep(int sec)
 {
 	dev::SysTimer* RandDevice = (dev::SysTimer*)GetDeviceByName("stmr0");
     if(RandDevice != NULL)
     {
     	RandDevice->Sleep(sec);
     }
-}
+}*/
 extern "C" void gotoxy(int x, int y)
 {
     std::cout.gotoxy(x,y);
