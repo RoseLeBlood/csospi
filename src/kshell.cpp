@@ -253,10 +253,12 @@ SHELLCOMMAND(ShellSwitch)
 	uart = !uart;
 	return 0;
 }
+extern "C" void platformexit();
+
 SHELLCOMMAND(ShellExit)
 {
 	std::cout << std::textcolor::Red << "Bye Bye Raspi User";
-	halt();
+	platformexit();
 	return 0;
 }
 

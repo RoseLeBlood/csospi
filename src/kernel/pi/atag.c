@@ -1,4 +1,4 @@
-﻿#include <kernel/mailbox.h>
+#include <kernel/mailbox.h>
 #include <types.h>
 
 #define ATAG_NONE        0x00000000
@@ -78,7 +78,30 @@ static void parse_platform_atag(void)
        // platform.maxaddr = (void*)maxaddr;
     }
 }
+
+extern  int __bss_start__;
+extern  int __bss_end__;
+extern  void init_irq() ;
+
+#include <kernel/power.h>
+
 void platforminit(void)
 {
+    int* bss = &__bss_start__;
+    int* bss_end = &__bss_end__;
+    while( bss < bss_end )
+        *bss++ = 0;
+
     parse_platform_atag();
+    power_init();
+    init_irq();
+}
+extern void halt();
+
+void platformexit()
+{
+    for(unsigned int i=0; i < 4; i++)
+    	setpower(i, false);
+
+    halt();
 }

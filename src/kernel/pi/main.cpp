@@ -7,7 +7,7 @@
 #include <malloc.h>
 #include <cmdParse.h>
 #include <kernel/mm.h>
-#include <kernel/power.h>
+
 
 #include <softEvent/event.hpp>
 
@@ -15,8 +15,7 @@ void* kernel_instance;
 uint32_t initial_esp;
 
 extern "C" void kernel_shell();
-extern "C" int __bss_start__;
-extern "C" int __bss_end__;
+
 
 Kernel::Kernel(uint64_t system_ram, uint64_t gpu_ram, KernelFrameBuffer *fb) 
 {
@@ -51,13 +50,8 @@ extern "C" void platforminit(void);
 
 extern "C" int kernel_main(int r0, unsigned int r1, unsigned int r2 )
 {
-	int* bss = &__bss_start__;
-    int* bss_end = &__bss_end__;
-    while( bss < bss_end )
-        *bss++ = 0;
-    
-	power_init();
 	platforminit();
+
 
 	uint32_t system_ram = get_system_mem();
 	uint32_t gpu_ram = get_video_mem();

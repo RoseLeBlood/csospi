@@ -1,4 +1,4 @@
-﻿#include <types.h>
+#include <types.h>
 #include <klibc/stdio.h>
 #include <klibc/string.h>
 #include <stdarg.h>
@@ -10,6 +10,7 @@
 
 /* the following should be enough for 32 bit int */
 #define PRINT_BUF_LEN 12
+extern void putchar(const char c);
 
 static void printchar(char **str, int c)
 {
@@ -17,6 +18,10 @@ static void printchar(char **str, int c)
 		**str = c;
 		++(*str);
 	}
+    else
+    {
+    	if(c) putchar(c);
+    }
 }
 
 static int prints(char **out, const char *string, int width, int pad)

@@ -31,6 +31,9 @@ extern "C"
 #define BCM2835_IRQ_ID_DOORBELL_1 	67
 #define BCM2835_IRQ_ID_GPU0_HALTED 	68
 
+
+
+
 struct register_t { };
 
 typedef void (*interrupt_handler_t)(void);
@@ -39,12 +42,12 @@ extern interrupt_handler_t interruptVector[];
 
 typedef unsigned long irqmask;  /**< machine status for disable/restore  */
 
-
-void 		  enable(void);
+void 		  init_irq(); //
+extern void   enable(void); //
 void		  disable(void);
 unsigned long restore(unsigned long);
-void 		  enable_irq(unsigned long);
-void 		  disable_irq(unsigned long);
+void 		  enable_irq(unsigned long); //
+void 		  disable_irq(unsigned long); //
 
 
 #ifdef __cplusplus

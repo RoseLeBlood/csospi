@@ -176,6 +176,8 @@
     <None Include="inc\klibc\hash\crc.h" />
     <None Include="src\kernel\pi\halt.S" />
     <None Include="inc\kernel\power.h" />
+    <None Include="inc\arm.h" />
+    <None Include="src\kernel\pi\dmb.S" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -242,5 +244,9 @@
     <Compile Include="src\kernel\pi\power.c" />
     <Compile Include="src\kernel\pi\atag.c" />
     <Compile Include="src\kernel\pi\isr.c" />
+    <Compile Include="src\klibc\crtbegin.c" />
+    <Compile Include="src\klibc\crtend.c" />
+    <Compile Include="src\klibc\crti.c" />
+    <Compile Include="src\klibc\crtn.c" />
   </ItemGroup>
 </Project>

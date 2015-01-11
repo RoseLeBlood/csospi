@@ -1,4 +1,4 @@
-﻿#include <kernel/utils.h>
+#include <kernel/utils.h>
 #include <kernel/mailbox.h>
 #include <stdio.h>
 #include <string.h>

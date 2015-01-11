@@ -1,4 +1,4 @@
-﻿/* Default linker script, for normal executables */
+/* Default linker script, for normal executables */
 OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm",
           "elf32-littlearm")
 OUTPUT_ARCH(arm)
@@ -116,17 +116,17 @@ SECTIONS
   }
   .init_array     :
   {
-    PROVIDE_HIDDEN (__init_array_start = .);
-    KEEP (*(SORT(.init_array.*)))
-    KEEP (*(.init_array))
-    PROVIDE_HIDDEN (__init_array_end = .);
+    src/klibc/crti.o(.init_array)
+    KEEP (*(SORT(EXCLUDE_FILE(src/klibc/crti.o src/klibc/crtn.o) .init_array.*)))
+    KEEP (*(EXCLUDE_FILE(src/klibc/crti.o src/klibc/crtn.o) .init_array))
+    src/klibc/crtn.o(.init_array)
   }
   .fini_array     :
   {
-    PROVIDE_HIDDEN (__fini_array_start = .);
-    KEEP (*(SORT(.fini_array.*)))
-    KEEP (*(.fini_array))
-    PROVIDE_HIDDEN (__fini_array_end = .);
+    src/klibc/crti.o(.fini_array)
+    KEEP (*(SORT(EXCLUDE_FILE(src/klibc/crti.o crtn.o) .fini_array.*)))
+    KEEP (*(EXCLUDE_FILE(src/klibc/crti.o src/klibc/crtn.o) .fini_array))
+    src/klibc/crtn.o(.fini_array)
   }
   .ctors          :
   {
@@ -140,22 +140,22 @@ SECTIONS
        wildcard.  The wildcard also means that it
        doesn't matter which directory crtbegin.o
        is in.  */
-    KEEP (*crtbegin.o(.ctors))
-    KEEP (*crtbegin?.o(.ctors))
+    KEEP (*src/klibc/crtbegin.o(.ctors))
+    KEEP (*src/klibc/crtbegin?.o(.ctors))
     /* We don't want to include the .ctor section from
        the crtend.o file until after the sorted ctors.
        The .ctor section from the crtend file contains the
        end of ctors marker and it must be last */
-    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))
+    KEEP (*(EXCLUDE_FILE (*src/klibc/crtend.o *src/klibc/crtend?.o ) .ctors))
     KEEP (*(SORT(.ctors.*)))
     KEEP (*(.ctors))
     end_ctors = .;
   }
   .dtors          :
   {
-    KEEP (*crtbegin.o(.dtors))
-    KEEP (*crtbegin?.o(.dtors))
-    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .dtors))
+    KEEP (*src/klibc/crtbegin.o(.dtors))
+    KEEP (*src/klibc/crtbegin?.o(.dtors))
+    KEEP (*(EXCLUDE_FILE (*src/klibc/crtend.o *src/klibc/crtend?.o ) .dtors))
     KEEP (*(SORT(.dtors.*)))
     KEEP (*(.dtors))
   }

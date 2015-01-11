@@ -1,4 +1,4 @@
-﻿#include <types.h>
+#include <types.h>
 #include <kernel/power.h>
 
 extern unsigned int     bcm_read_mailbox(unsigned int channel);

@@ -1,7 +1,7 @@
 ﻿ELFNAME=csos.elf
 KERNEL=csos.bin
 
-ASFLAGS = -march=armv6zk -mcpu=arm1176jzf-s 
+ASFLAGS = -march=armv6zk -mcpu=arm1176jzf-s   -Iinc -Iinc/klibc -nostdlib
 CFLAGS = -Ofast -march=armv6zk -mcpu=arm1176jzf-s  -fpic -ffreestanding -Iinc -Iinc/klibc -nostdlib 
 LDFLAGS = -e 0x00000000 -T src/kernel/pi/link.ld -o $(ELFNAME)
 CXXFLAGS=-lang=c++ -fno-rtti -fuse-cxa-atexit -std=c++11 $(CFLAGS) 
@@ -25,7 +25,8 @@ OBJS =  \
 	   src/kernel/pi/iob.o \
 	   src/kernel/pi/atag.o \
 	   src/kernel/pi/power.o \
-	   src/softEvent/event.o src/gol.o
+	   src/softEvent/event.o src/gol.o src/kernel/pi/isr.o \
+	   src/kernel/pi/dmb.o
 
 AEBI = src/aebi/_udivsi3.o src/aebi/_divsi3.o
 
@@ -54,7 +55,11 @@ KLIBC = \
     src/klibc/_extern.o \
     src/klibc/sleep.o \
     src/klibc/sqrtf.o \
-    src/klibc/sprintf.o
+    src/klibc/sprintf.o \
+    src/klibc/crtend.o \
+    src/klibc/crtbegin.o \
+    src/klibc/crti.o \
+    src/klibc/crtn.o
         
 KLIBCPP = src/klibc/cxx/new.o \
 		  src/klibc/cxx/icxxabi.o \

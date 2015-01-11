@@ -1,4 +1,4 @@
-﻿#include <kernel/mailbox.h>
+#include <kernel/mailbox.h>
 
 #define dmb() __asm__ volatile ("mcr p15, #0, %[zero], c7, c10, #5" : : [zero] "r" (0) )
 
