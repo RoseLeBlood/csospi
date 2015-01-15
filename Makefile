@@ -2,7 +2,7 @@
 KERNEL=csos.bin
 
 ASFLAGS = -march=armv6zk -mcpu=arm1176jzf-s   -Iinc -Iinc/klibc -nostdlib
-CFLAGS = -Ofast -march=armv6zk -mcpu=arm1176jzf-s  -fpic -ffreestanding -Iinc -Iinc/klibc -nostdlib 
+CFLAGS = -O3 -march=armv6zk -mcpu=arm1176jzf-s  -fpic -Iinc -Iinc/klibc -nostdlib -ffreestanding -nostartfiles -nostdinc -nodefaultlibs  -fno-stack-protector  -mfloat-abi=hard 
 LDFLAGS = -e 0x00000000 -T src/kernel/pi/link.ld -o $(ELFNAME)
 CXXFLAGS=-lang=c++ -fno-rtti -fuse-cxa-atexit -std=c++11 $(CFLAGS) 
 OBJGLAGS =  $(ELFNAME) -O binary $(KERNEL)
@@ -26,7 +26,10 @@ OBJS =  \
 	   src/kernel/pi/atag.o \
 	   src/kernel/pi/power.o \
 	   src/softEvent/event.o src/gol.o src/kernel/pi/isr.o \
-	   src/kernel/pi/dmb.o
+	   src/kernel/pi/dmb.o \
+	   src/kernel/pi/put.o \
+	   src/kernel/font8x8.o \
+	   src/kernel/font12x16.o
 
 AEBI = src/aebi/_udivsi3.o src/aebi/_divsi3.o
 

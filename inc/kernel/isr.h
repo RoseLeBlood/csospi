@@ -34,22 +34,19 @@ extern "C"
 
 
 
-struct register_t { };
-
-typedef void (*interrupt_handler_t)(void);
+typedef void (*interrupt_handler_t)(uint32_t irq);
 
 extern interrupt_handler_t interruptVector[];
 
 typedef unsigned long irqmask;  /**< machine status for disable/restore  */
 
 void 		  init_irq(); //
-extern void   enable(void); //
-void		  disable(void);
-unsigned long restore(unsigned long);
-void 		  enable_irq(unsigned long); //
-void 		  disable_irq(unsigned long); //
+void   		  enable_irq(void); 
+void		  disable_irq(void);
+void 		  enable_irq_n(unsigned long); //
+void 		  disable_irq_n(unsigned long); //
 
-
+void		  set_handler(unsigned long irq, interrupt_handler_t handler, void* userdata);
 #ifdef __cplusplus
 }
 #endif

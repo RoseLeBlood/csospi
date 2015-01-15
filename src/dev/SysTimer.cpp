@@ -20,6 +20,6 @@ int SysTimer::Sleep(uint32_t us )
 
 	while( ( m_rpiSystemTimer->counter_lo - ts ) < us )
 	{
-	    /* BLANK */
+	    printf("WAIT");
 	}
 }

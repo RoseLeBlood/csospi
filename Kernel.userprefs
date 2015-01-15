@@ -1,16 +1,6 @@
-﻿<Properties>
+﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="inc/kernel/isr.h">
-    <Files>
-      <File FileName="src/kernel/pi/atag.c" Line="24" Column="24" />
-      <File FileName="src/kernel/pi/mailbox.c" Line="1" Column="1" />
-      <File FileName="Makefile" Line="28" Column="28" />
-      <File FileName="inc/kernel/utils.h" Line="1" Column="1" />
-      <File FileName="src/kernel/pi/main.cpp" Line="2" Column="2" />
-      <File FileName="src/kernel/pi/power.c" Line="1" Column="1" />
-      <File FileName="inc/kernel/isr.h" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

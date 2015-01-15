@@ -27,27 +27,16 @@ extern "C"
 #define FBFAIL_INVALID_PITCH_DATA		8
 
 
+#include <kernel/platform.h>
 
-struct KernelFrameBuffer
-{
-	uint32_t ifbX;
-	uint32_t ifbY;
-	uint32_t iDepth;
-	uint32_t iPitch;
-	uint32_t iFontMaxX;
-	uint32_t iFontMaxY;
-	uint32_t iBaseAdress;
-	void*	 pFramebuffer;
-	uint32_t 	iSize;
-};
 
 
 int get_cpu_freq(void);
 int get_system_mem();
 int get_video_mem();
 
-struct KernelFrameBuffer* 	get_framebuffer_info();
-bool						set_framebuffer(struct KernelFrameBuffer* fb);
+struct FrameBuffer* 	get_framebuffer_info();
+bool						set_framebuffer(struct FrameBuffer* fb);
 
 
 

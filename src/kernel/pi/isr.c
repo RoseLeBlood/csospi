@@ -12,7 +12,7 @@ interrupt_handler_t interruptVector[BCM2835_NUM_IRQS];
 
 static uint32_t arm_enabled_irqs[3];
 
-
+#define IC_REGS ((volatile uint32_t *)0x14000000)
 
 struct bcm2835_interrupt_registers 
 {
@@ -37,10 +37,16 @@ static inline unsigned long first_set_bit(unsigned long word)
 
 void init_irq() 
 {
-   // enable_irq(BCM2835_IRQ_ID_TIMER_0);
-	enable();
+    IC_REGS[3] = 0xFFFFFFFF;
+    enable_irq();
 }
-void enable_irq(unsigned long irq_num) 
+void enable_irq()
+{
+	__asm__ __volatile__ ("mrs r0,cpsr;"
+                          "bic r0,#0x80;"
+                          "msr cpsr_ctl,r0" ::: "r0");
+}
+void enable_irq_n(unsigned long irq_num) 
 {
 	if (irq_num < 32)
     {
@@ -59,7 +65,7 @@ void enable_irq(unsigned long irq_num)
     }
 }
 
-void disable_irq(unsigned long irq_num) 
+void disable_irq_n(unsigned long irq_num) 
 {
     if (irq_num < 32)
     {
@@ -88,7 +94,7 @@ static void handle_irq(unsigned char irq_num)
     interrupt_handler_t handler = interruptVector[irq_num];
     if (handler)
     {
-        (*handler)();
+        (*handler)(irq_num);
     }
     else
     {

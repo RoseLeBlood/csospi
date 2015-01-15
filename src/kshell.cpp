@@ -258,7 +258,7 @@ extern "C" void platformexit();
 SHELLCOMMAND(ShellExit)
 {
 	std::cout << std::textcolor::Red << "Bye Bye Raspi User";
-	platformexit();
+	//platformexit();
 	return 0;
 }
 

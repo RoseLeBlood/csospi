@@ -3,6 +3,8 @@
 #include <kernel/video.h>
 #include <stdio.h>
 #include <cxx/iostream.hpp>
+#include <kernel/put.h>
+#include <config.h>
 
 using namespace dev;
 SerialOut::SerialOut(int port) : Driver("uart i/o", "uart", 0,0,0x07, true, true), m_port(port)
@@ -35,10 +37,11 @@ bool SerialOut::Probe()
 	// Fraction part register = (Fractional part * 64) + 0.5
 	// UART_CLOCK = 3000000; Baud = 115200.
  
-	// Divider = 3000000 / (16 * 115200) = 1.627 = ~1.
-	// Fractional part register = (.627 * 64) + 0.5 = 40.6 = ~40.
-	outi(GPIO::UART0_IBRD, 1);
-	outi(GPIO::UART0_FBRD, 40);
+	uint32_t Divider = (uint32_t)(3000000 / (16 * UART0_BAUD)); // 1
+	uint32_t Fractional  = (uint32_t)((.627 * 64) + 0.5); // 40.
+
+	outi(GPIO::UART0_IBRD, Divider);
+	outi(GPIO::UART0_FBRD, Fractional);
  
 	// Enable FIFO & 8 bit data transmissio (1 stop bit, no parity).
 	outi(GPIO::UART0_LCRH, (1 << 4) | (1 << 5) | (1 << 6));
@@ -54,7 +57,7 @@ bool SerialOut::Probe()
 	return true;
 	
 }
-register_t* SerialOut::callback(register_t* state)
+void SerialOut::callback(uint32_t irq)
 {
 
 	printf("UART");
@@ -79,6 +82,7 @@ void SerialOut::WriteChar(char c)
 
 	while ( ini(GPIO::UART0_FR) & (1 << 5) ) { }
 	outi(GPIO::UART0_DR, c);
+
 	if (c == '\n')
     {
         WriteChar('\r');

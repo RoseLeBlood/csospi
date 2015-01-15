@@ -178,6 +178,8 @@
     <None Include="inc\kernel\power.h" />
     <None Include="inc\arm.h" />
     <None Include="src\kernel\pi\dmb.S" />
+    <None Include="inc\kernel\put.h" />
+    <None Include="inc\kernel\platform.h" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -199,7 +201,6 @@
     <Folder Include="src\kernel\pi\" />
     <Folder Include="inc\softEvent\" />
     <Folder Include="src\softEvent\" />
-    <Folder Include="inc\test\" />
     <Folder Include="inc\Framebuffer\" />
     <Folder Include="src\Framebuffer\" />
     <Folder Include="src\klibc\hash\" />
@@ -248,5 +249,8 @@
     <Compile Include="src\klibc\crtend.c" />
     <Compile Include="src\klibc\crti.c" />
     <Compile Include="src\klibc\crtn.c" />
+    <Compile Include="src\kernel\pi\put.c" />
+    <Compile Include="src\kernel\font8x8.c" />
+    <Compile Include="src\kernel\font12x16.c" />
   </ItemGroup>
 </Project>

@@ -32,7 +32,7 @@ namespace dev
 		virtual void Clear();
 		virtual void Swap(unsigned char* buffer, uint32_t size);
 
-		KernelFrameBuffer* GetKernelFrambuffer() { return m_fb; }
+		FrameBuffer* GetKernelFrambuffer() { return m_fb; }
 	protected:
 		void SetPixel16(unsigned long x, unsigned long y, uint32_t cl);
 		void SetPixel24(unsigned long x, unsigned long y, uint32_t cl);
@@ -46,7 +46,7 @@ namespace dev
 		unsigned m_fbseg;
 		unsigned char* m_mem;
 
-		KernelFrameBuffer *m_fb;
+		FrameBuffer *m_fb;
 
 		unsigned int xpos=0, ypos=0;
 

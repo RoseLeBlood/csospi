@@ -1,7 +1,7 @@
 ﻿#include <gol.hpp>
 
-#define BOARD_WIDTH	400
-#define BOARD_HEIGHT	400
+#define BOARD_WIDTH		640
+#define BOARD_HEIGHT	480
 
 GameOfLife::GameOfLife()
 {

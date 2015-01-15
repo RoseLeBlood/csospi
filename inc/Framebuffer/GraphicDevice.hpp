@@ -15,10 +15,9 @@ namespace fb
 		void SwapBuffer(GraphicBuffer *buffer);
 
 		GraphicBuffer*		CreateBuffer();
-		KernelFrameBuffer	*GetFramebufferInfo()	{ return m_fbb; }
+		::FrameBuffer	*GetFramebufferInfo()	{ return m_fb->GetKernelFrambuffer(); }
 	private:
 		dev::Framebuffer 	*m_fb;
-		KernelFrameBuffer 	*m_fbb;
 	};
 
 	typedef GraphicDevice GHD;

@@ -17,7 +17,7 @@ namespace fb
     }
     void GraphicBuffer::Create(GraphicDevice *device)
     {
-    	KernelFrameBuffer *info = device->GetFramebufferInfo();
+    	FrameBuffer *info = device->GetFramebufferInfo();
 
 		m_iScreenWidth = info->ifbX;
 		m_iScreenHeight = info->ifbY;

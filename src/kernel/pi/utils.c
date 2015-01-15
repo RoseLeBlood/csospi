@@ -4,6 +4,7 @@
 #include <string.h>
 #include <mmalloc.h>
 #include <kernel/pmm.h>
+#include <config.h>
 
 extern void *end;
 
@@ -86,9 +87,9 @@ static bool fb_fail(unsigned int num)
 	return false;
 }
 
-struct KernelFrameBuffer* get_framebuffer_info()
+struct FrameBuffer* get_framebuffer_info()
 {
-	struct KernelFrameBuffer *__mpBuffer_frame__ = (struct KernelFrameBuffer*)malloc(sizeof(struct KernelFrameBuffer));
+	struct FrameBuffer *__mpBuffer_frame__ = (struct FrameBuffer*)malloc(sizeof(struct FrameBuffer));
 
 	unsigned int var;
 	unsigned int count;
@@ -118,11 +119,11 @@ struct KernelFrameBuffer* get_framebuffer_info()
 	
 	__mpBuffer_frame__->iFontMaxX = __mpBuffer_frame__->ifbX / CHARSIZE_X;
 	__mpBuffer_frame__->iFontMaxY = __mpBuffer_frame__->ifbY / CHARSIZE_Y;
-	__mpBuffer_frame__->iDepth = 24;
+	__mpBuffer_frame__->iDepth = FRMEBUFFER_DEPTH;
 
 	return __mpBuffer_frame__;
 }
-bool set_framebuffer(struct KernelFrameBuffer* fb)
+bool set_framebuffer(struct FrameBuffer* fb)
 {
 	unsigned int var;
 	unsigned int count;

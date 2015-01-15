@@ -52,7 +52,7 @@ _software_interrupt_vector_h:       .word   software_interrupt_vector
 _prefetch_abort_vector_h:           .word   prefetch_abort_vector
 _data_abort_vector_h:               .word   data_abort_vector
 _unused_handler_h:                  .word   _reset_
-_interrupt_vector_h:                .word   irq_handler
+_interrupt_vector_h:                .word   dispatch
 _fast_interrupt_vector_h:           .word   fast_interrupt_vector
 
 _reset_:

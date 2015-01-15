@@ -64,7 +64,7 @@ namespace dev
 		
 		virtual uint64_t Read(uint8_t *data, uint64_t offset, uint64_t size);
 		virtual uint64_t Write(uint8_t *data, uint64_t offset, uint64_t size);
-		register_t* callback(register_t* state);
+		void callback(uint32_t irq);
 
 		int getPort() { return m_port; }
 	protected:

@@ -17,7 +17,7 @@ extern "C" void* kernel_instance;
 class Kernel
 {
 public:
-	Kernel(uint64_t system_ram, uint64_t gpu_ram, KernelFrameBuffer *fb);
+	Kernel();
 
 	int RunKernel(int args, char** argv);
 	
@@ -44,7 +44,7 @@ public:
 	uint64_t	GetVideoRamSize () 		{ return m_vram; }
 	uint64_t    GetSystemRamSize()		{ return m_sram; }
 
-	KernelFrameBuffer* GetKernelFrambuffer() { return m_pFB; }
+	FrameBuffer* GetKernelFrambuffer() { return m_pFB; }
 private:
 	void plotinfo(const char* text, uint32_t s, uint32_t e);
 private:
@@ -53,7 +53,7 @@ private:
 private:
 	uint64_t							m_vram;
 	uint64_t							m_sram;
-	KernelFrameBuffer					*m_pFB;
+	FrameBuffer					*m_pFB;
 };
 
 extern "C" void* GetDeviceByName(char* name);

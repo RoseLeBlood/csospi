@@ -44,8 +44,8 @@ namespace dev
 	{
 		return m_DevName;
 	}
-	register_t* Driver::driver_callback(register_t* state, void* userdata)
+	void Driver::driver_callback(uint32_t irq, void* userdata)
 	{
-		return state;
+		
 	}
 }

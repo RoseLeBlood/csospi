@@ -7,23 +7,26 @@
 #include <malloc.h>
 #include <cmdParse.h>
 #include <kernel/mm.h>
-
+#include <kernel/power.h>
+#include <kernel/isr.h>
 
 #include <softEvent/event.hpp>
 
 void* kernel_instance;
 uint32_t initial_esp;
+extern  int __bss_start__;
+extern  int __bss_end__;
+extern  void init_irq() ;
 
 extern "C" void kernel_shell();
 
 
-Kernel::Kernel(uint64_t system_ram, uint64_t gpu_ram, KernelFrameBuffer *fb) 
+Kernel::Kernel() 
 {
 	m_driverList = new dev::DriverList();
-	m_vram = gpu_ram;
-	m_sram = system_ram;
-	m_pFB = fb;
-	m_pFB->iDepth = FRMEBUFFER_DEPTH;
+	m_vram = get_video_mem();
+	m_sram = get_system_mem();
+	m_pFB = get_framebuffer_info();
 }
 
 
@@ -46,19 +49,19 @@ int Kernel::RunKernel(int args, char** argv)
 	for(;;) ;
 	return 0;
 }
-extern "C" void platforminit(void);
-
 extern "C" int kernel_main(int r0, unsigned int r1, unsigned int r2 )
 {
-	platforminit();
+	int* bss = &__bss_start__;
+    int* bss_end = &__bss_end__;
+    while( bss < bss_end )
+        *bss++ = 0;
 
+    power_init();
+    init_irq();
 
-	uint32_t system_ram = get_system_mem();
-	uint32_t gpu_ram = get_video_mem();
+    mm_init(get_system_mem());
 
-    mm_init(system_ram);
-
-	kernel_instance = new Kernel(system_ram, gpu_ram, get_framebuffer_info());
+	kernel_instance = new Kernel();
 
     return ((Kernel*)kernel_instance)->RunKernel(0, NULL);
 }
