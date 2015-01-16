@@ -180,6 +180,10 @@
     <None Include="src\kernel\pi\dmb.S" />
     <None Include="inc\kernel\put.h" />
     <None Include="inc\kernel\platform.h" />
+    <None Include="src\shell\shell.cpp" />
+    <None Include="inc\shell\shell.hpp" />
+    <None Include="inc\klibc\cxx\split.hpp" />
+    <None Include="src\klibc\cxx\split.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -205,6 +209,8 @@
     <Folder Include="src\Framebuffer\" />
     <Folder Include="src\klibc\hash\" />
     <Folder Include="inc\klibc\hash\" />
+    <Folder Include="inc\shell\" />
+    <Folder Include="src\shell\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\klibc\assert.c" />

@@ -9,6 +9,7 @@ extern "C" {
 #include <stdio.h>
 #include <string.h>
 
+
 struct md5_buffer;
 
 struct md5_buffer* md5_create_buffer(const char* data,size_t lenght);

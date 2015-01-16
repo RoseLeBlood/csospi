@@ -73,7 +73,8 @@ KLIBCPP = src/klibc/cxx/new.o \
 		  src/klibc/cxx/intrusive_slist.o \
 		  src/klibc/cxx/slist.o \
 		  src/IStream.o \
-		  src/klibc/cxx/lock.o 
+		  src/klibc/cxx/lock.o \
+		  src/klibc/cxx/split.o
 
 FS	  = src/fs.o \
 		src/DeviceStream.o \
@@ -88,7 +89,7 @@ DEV   = src/dev/Driver.o \
 	    src/dev/SysTimer.o \
 	    src/dev/Framebuffer.o 
  
-FB	  = src/Framebuffer/Buffer.o src/Framebuffer/GraphicDevice.o
+FB	  = src/Framebuffer/Buffer.o src/Framebuffer/GraphicDevice.o src/shell/shell.o
 
 HASH  = src/klibc/hash/md5.o \
  		src/klibc/hash/adler32.o \

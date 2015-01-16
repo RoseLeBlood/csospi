@@ -11,6 +11,7 @@
 #include <kernel/isr.h>
 
 #include <softEvent/event.hpp>
+#include <shell/shell.hpp>
 
 void* kernel_instance;
 uint32_t initial_esp;
@@ -38,14 +39,15 @@ int Kernel::RunKernel(int args, char** argv)
 	m_devices = new dev::DeviceManager();
 	m_devices->ProbeAll();
 
-	std::cout.SetDevice("uart0");
+	std::cout.SetDevice("fb0");
   	std::cin.SetDevice("uart0");
 
 
   	std::cout << std::textcolor::LightGrey << "CS/Os5-ARM on Raspberry Pi\n" << "CPU-Freq: " << get_cpu_freq() << " Mhz\n";
   	std::cout << "RAM/VRAM: " << (uint32_t)(m_sram / 1024 / 1024) << "/" << (uint32_t)(m_vram / 1024 / 1024) << " MB\n";
 
-  	kernel_shell();
+  	csShell *shell = new csShell();
+  	shell->Run();
 	for(;;) ;
 	return 0;
 }

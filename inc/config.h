@@ -17,8 +17,7 @@
 #define CSOS_LIBVERSION_STRING			std::string("0.26.15")
 
 
-#define	FONT_8							8
-#define FONT_16							16 
+#define	FONT_8							8 
 #define FONT							FONT_8
 
 #define TABSIZE_NORMAL					4

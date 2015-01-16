@@ -6,6 +6,7 @@
 #include <cxx/basic_string.hpp>
 #include <cxx/hash.hpp>
 #include <cxx/basic_wstring.hpp>
+#include <cxx/vector.hpp>
 
 namespace std
 {
@@ -47,6 +48,7 @@ namespace std
 	
 		return basic_string<char>(buf);
 	}*/
+
 }
 
 #endif 

@@ -311,13 +311,17 @@ char* strstr(const char* s1, const char* s2)
 char* strtok(char* str, const char* delimiters) 
 {
 	static char* last = 0;
-	
-    if(!str)
-        str = last;
-        
+
+	if(!str)
+    {
+    	strcpy(str, last);
+       // str = last;
+    }
+
     if(!str || *str == 0)
         return 0;
-        
+    
+       
     while(*str != 0 && strchr(delimiters, *str) != 0)
         str++;
     char* end = str + strcspn(str, delimiters);

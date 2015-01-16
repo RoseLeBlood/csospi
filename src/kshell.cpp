@@ -1,4 +1,4 @@
-﻿#include <string.h>
+﻿/*#include <string.h>
 #include <stdio.h>
 #include <cxx/iostream.hpp>
 #include <iob.h>
@@ -261,5 +261,5 @@ SHELLCOMMAND(ShellExit)
 	//platformexit();
 	return 0;
 }
-
+	*/
 
