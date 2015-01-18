@@ -8,7 +8,7 @@ extern "C"
 
 #include <types.h>
 
-int 				mm_init(uint64_t);
+int 				mm_init(uint32_t);
 void 				mm_test();
 void 				mm_free(void *);
 intptr_t*			mm_alloc(size_t);

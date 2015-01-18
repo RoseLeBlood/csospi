@@ -7,14 +7,15 @@
                          + __GNUC_PATCHLEVEL__)
 
 
-#define VERSION                 		"0.54.00 PI"
+#define VERSION                 		"0.60.00 PI"
 #define NAME                    		"CS/OS"
-#define RELEASE_NAME    				"Charlie"
+#define RELEASE_NAME    				"Daisy"
+#define PLATFORM						"ARM"
 #define MACHINE							"armv6zk"
 #define NETWORKNAME						"csos"
 
-#define CSOS_LIBVERSION					0x002615
-#define CSOS_LIBVERSION_STRING			std::string("0.26.15")
+#define CSOS_LIBVERSION					0x003A00
+#define CSOS_LIBVERSION_STRING			std::string("0.58.00")
 
 
 #define	FONT_8							8 

@@ -6,15 +6,14 @@ extern unsigned 					pmm_bitmap[PHYS_MAX_PAGE];
 extern unsigned 					pmm_page_number;                                            
 extern uint32_t 					pmm_total; 
 
-int mm_init(uint64_t mem)
+int mm_init(uint32_t mem)
 {
 	pmm_init(mem);
 	return 0;
 }
 intptr_t *mm_alloc(size_t size)
 {       
-	unsigned bnum = (unsigned) ((size + 1) / (PHYS_PAGE_SIZE * 1024)) + 1; 
-	return (void *)pmm_alloc(bnum);
+	return (void *)pmm_alloc(size);
 }
 void mm_free(void *addr)
 {
@@ -28,7 +27,7 @@ uint32_t mm_get_total_mem()
 
 uint32_t mm_get_used_mem()
 { 
-	return ((pmm_page_number - pmm_get_free_pages()) * PHYS_PAGE_SIZE);
+	return ((pmm_page_number - pmm_get_free_pages()) );
 }
 uint32_t mm_get_usable_size(void *addr)
 {

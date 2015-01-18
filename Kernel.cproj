@@ -184,6 +184,11 @@
     <None Include="inc\shell\shell.hpp" />
     <None Include="inc\klibc\cxx\split.hpp" />
     <None Include="src\klibc\cxx\split.cpp" />
+    <None Include="src\shell\echo.cpp" />
+    <None Include="src\shell\lsdev.cpp" />
+    <None Include="src\shell\help.cpp" />
+    <None Include="src\shell\exit.cpp" />
+    <None Include="src\shell\set.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

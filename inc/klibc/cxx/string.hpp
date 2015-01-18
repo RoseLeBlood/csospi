@@ -8,6 +8,7 @@
 #include <cxx/basic_wstring.hpp>
 #include <cxx/vector.hpp>
 
+
 namespace std
 {
 	typedef basic_string<char> string;

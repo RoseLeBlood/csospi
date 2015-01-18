@@ -29,7 +29,12 @@ OBJS =  \
 	   src/kernel/pi/dmb.o \
 	   src/kernel/pi/put.o \
 	   src/kernel/font8x8.o \
-	   src/kernel/font12x16.o
+	   src/shell/shell.o \
+ 	   src/shell/echo.o \
+ 	   src/shell/lsdev.o \
+ 	   src/shell/help.o \
+ 	   src/shell/exit.o \
+ 	   src/shell/set.o
 
 AEBI = src/aebi/_udivsi3.o src/aebi/_divsi3.o
 
@@ -89,7 +94,7 @@ DEV   = src/dev/Driver.o \
 	    src/dev/SysTimer.o \
 	    src/dev/Framebuffer.o 
  
-FB	  = src/Framebuffer/Buffer.o src/Framebuffer/GraphicDevice.o src/shell/shell.o
+FB	  = src/Framebuffer/Buffer.o src/Framebuffer/GraphicDevice.o 
 
 HASH  = src/klibc/hash/md5.o \
  		src/klibc/hash/adler32.o \

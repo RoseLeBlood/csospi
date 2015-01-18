@@ -57,11 +57,13 @@ extern "C" int kernel_main(int r0, unsigned int r1, unsigned int r2 )
     int* bss_end = &__bss_end__;
     while( bss < bss_end )
         *bss++ = 0;
+    
+	mm_init(get_system_mem());
 
     power_init();
     init_irq();
 
-    mm_init(get_system_mem());
+
 
 	kernel_instance = new Kernel();
 

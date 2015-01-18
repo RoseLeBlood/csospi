@@ -2,24 +2,18 @@
 
 namespace std
 {
-	std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-	    std::string delims = std::string(&delim);
-	    tokenize(s, elems, delims);
-	    return elems;
+	std::vector<std::string> split(std::string&  strString, const char*  delimiter)
+	{
+		std::vector<std::string> container;
+		tokenize<char, std::string>
+			((char*)strString.c_str(), delimiter[0], container);
+		return container;
 	}
-
-	std::vector<std::string> split(const std::string &s, char delim) {
-	    std::vector<std::string> elems;
-	    return split(s, delim, elems);
-	}
-
-	std::vector<std::string> &split(const std::string &s, const std::string& delims, std::vector<std::string> &elems) {
-	    tokenize(s, elems, delims);
-	    return elems;
-	}
-
-	std::vector<std::string> split(const std::string &s, const std::string& delims) {
-	    std::vector<std::string> elems;
-	    return split(s, delims, elems);
+	std::vector<std::wstring> split(std::wstring& strString, const wchar_t* delimiter)
+	{
+		std::vector<std::wstring> container;
+		tokenize<wchar_t, std::wstring>
+			((wchar_t*)strString.c_str(), delimiter[0], container);
+		return container;
 	}
 }

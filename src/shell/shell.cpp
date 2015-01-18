@@ -3,8 +3,7 @@
 #include <kernel/kernel.hpp>
 #include <hash/md5.h>
 #include <stdio.h>
-
-std::vector<std::string> split(std::string&  strString,const char*  delimiter);
+#include <cxx/split.hpp>
 
 csShell::csShell() 
 {
@@ -16,14 +15,22 @@ csShell::csShell()
 	m_pCommands.push_back(csShellCommand(std::string("help"), std::string("This text"), csShell::help));
 	m_pCommands.push_back(csShellCommand(std::string("lsdev"), std::string("List current used devices"), csShell::lsdev));
 	m_pCommands.push_back(csShellCommand(std::string("exit"), std::string("logout"), csShell::exit));
-	m_pCommands.push_back(csShellCommand(std::string("echo"), std::string("echo"), csShell::echo));
-
+	m_pCommands.push_back(csShellCommand(std::string("echo"), std::string("display a line of text"), csShell::echo));
+	m_pCommands.push_back(csShellCommand(std::string("set"), std::string("using: set {VARNAME} {DATA}"), csShell::set));
+	m_pCommands.push_back(csShellCommand(std::string("unset"), std::string("using: unset {VARNAME}"), csShell::unset));
+	//lsvar
+	m_pCommands.push_back(csShellCommand(std::string("lsvar"), std::string("list all variables"), csShell::lsvar));
+	
 	m_pUser.push_back(csShellLogin(std::string("pi"), STD_USER_PASS));
-}
-char string[128];
 
+	set(std::string("SHELL"), std::string("csos"), VarType::System);
+	set(std::string("PLATFORM"), std::string(PLATFORM), VarType::System);
+	set(std::string("MASCHIN"), std::string(MACHINE), VarType::System);
+	set(std::string("VERSION"), std::string(VERSION), VarType::System);
+}
 std::string csShell::getinput(bool pass)
 {
+	static char string[64];
 	int p = 0;
     char ch;
     
@@ -33,7 +40,7 @@ std::string csShell::getinput(bool pass)
         if((ch == '\b') && (p == 0))
                 continue;
 
-        std::cout <<(ch);
+        if(!pass) std::cout <<(ch);
         if(ch == '\b')
         {
                 p--;
@@ -55,14 +62,14 @@ void csShell::drawPreamble()
 	{
 		std::cout << std::textcolor::Red << m_lastReturn;
 	}
-	std::cout << std::textcolor::Yellow  << "cosh" << std::textcolor::LightGrey << "@" << NETWORKNAME  
+	std::cout << std::textcolor::Yellow  << (get(std::string("$USER"))) << std::textcolor::LightGrey << "@" << NETWORKNAME  
 	 			<< std::textcolor::White << " /" << std::textcolor::LightGrey << " % " ;
 }
 bool csShell::findAndRunCommand(std::string command)
 {
 	m_lastReturn = COSHELL_COMMANDNOTFOUND;
 	 			
-	std::vector<std::string> input =  split(command, " ");
+	std::vector<std::string> input =  std::split(command, " ");
 
 	for (std::list<csShellCommand>::iterator it = m_pCommands.begin(); it != m_pCommands.end(); it++)
 	{
@@ -125,6 +132,7 @@ csShellLogin csShell::login()
 				if(it->Password == std::string(buf))
 				{
 					m_bLogin = true;
+					set(std::string("USER"), it->Name, VarType::System);
 					return *it;
 				}
 				else
@@ -135,61 +143,44 @@ csShellLogin csShell::login()
 		}
 	}
 }
+bool csShell::set(std::string name, std::string data, VarType::VarType_t type)
+{
+	std::string var = std::string("$");
+	var << name;
+
+	for (std::list<csShellVar>::iterator it = m_pVariable.begin(); it != m_pVariable.end(); it++)
+	{
+		if(it->Name == var && it->Type != VarType::System )
+		{
+			it->Variable = data;
+			return true;
+		}
+	}
+    
+	m_pVariable.push_back(csShellVar(var, data, type));
+}
+std::string csShell::get(std::string name)
+{
+	for (std::list<csShellVar>::iterator it = m_pVariable.begin(); it != m_pVariable.end(); it++)
+	{
+		if(it->Name == name )
+			return it->Variable;
+	}
+	return std::string("");
+}
+bool csShell::unset(std::string name)
+{
+	for (std::list<csShellVar>::iterator it = m_pVariable.begin(); it != m_pVariable.end(); it++)
+	{
+		if(it->Name == name && it->Type != VarType::System)
+		{
+			m_pVariable.erase(it);
+			return true;
+		}
+	}
+	return false;
+}
 //............................................
-int csShell::lsdev(csShell* shell, std::vector<std::string> args)
-{
-	dev::listDevices *drv = Kernel::Instance().GetDevices()->getList();
-	
-	for(dev::listDevices::iterator i = drv->begin() ; i != drv->end(); i++)
-	{
-		std::cout << "\t" << (*i)->getName() << " : " << (*i)->getDriver()->getName() << std::endl;
-	}
-
-	return 0;
-}
-int csShell::help(csShell* shell, std::vector<std::string> args)
-{
-	for (std::list<csShellCommand>::iterator it = shell->m_pCommands.begin(); it != shell->m_pCommands.end(); it++)
-	{
-		std::cout << std::tab << "-> "<< it->Name << " - " << it->Description << std::endl;
-	}
-	return 0;
-}
-int csShell::exit(csShell* shell, std::vector<std::string> args)
-{
-	shell->Exit();
-
-	return COSHELL_LOGOUT;
-}
-int csShell::echo(csShell* shell, std::vector<std::string> args)
-{
-	for(int i = 1; i < args.size(); i++)
-		std::cout << args[i] << ' '; 
-
-	std::cout << std::endl;
-	return 0;
-}
-
-#include <string.h>
 
 
 
-void tokenize(char *s, char delim,  std::vector<std::string> &container) {
-	char *olds = s;
-	char olddelim = delim;
-	while(olddelim && *s) 
-	{
-		while(*s && (delim != *s)) s++;
-		*s ^= olddelim = *s; 
-		container.push_back(std::string(olds));
-		*s++ ^= olddelim; 
-		olds = s;
-	}
-}
-
-std::vector<std::string> split(std::string&  strString,const char*  delimiter)
-{
- 	std::vector<std::string> container;
-	tokenize((char*)(strString.c_str()), delimiter[0], container);
-	return container;
-}

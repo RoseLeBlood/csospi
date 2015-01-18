@@ -8,44 +8,24 @@
 
 namespace std
 {
-	std::vector<std::string>& split(const std::string &s, char delim, std::vector<std::string> &elems);
-	std::vector<std::string>  split(const std::string &s, char delim);
+	std::vector<std::string> split(std::string&  strString, const char*  delimiter);
+	std::vector<std::wstring> split(std::wstring& strString, const wchar_t* delemiter);
 
-
-	std::vector<std::string>& split(const std::string &s, const std::string& delims, std::vector<std::string> &elems);
-	std::vector<std::string>  split(const std::string &s, const std::string& delims);
-
-
-	template < class ContainerT >
-	void tokenize(const std::string& str, ContainerT& tokens,
-	              const std::string& delimiters = " ", const bool trimEmpty = false)
+	template<typename T, class StringT>
+	void tokenize(T* s, T delim, std::vector<StringT>& container)
 	{
+		const T *olds = s;
+		T olddelim = delim;
 
-	    std::string::size_type pos, lastPos = 0;
-	    while(true)
-	    {
-		pos = str.find(delimiters.c_str());
-		if(pos == std::string::npos)
+		while(olddelim && *s) 
 		{
-
-		    pos = str.length();
-
-		    if(pos != lastPos || !trimEmpty) {
-			tokens.push_back(typename ContainerT::value_type(str.c_str()+lastPos, (typename ContainerT::value_type::size_type)pos-lastPos));
-		    }
-
-		    break;
+			while(*s && (delim != *s)) s++;
+			*s ^= olddelim = *s; 
+			container.push_back(StringT(olds));
+			*s++ ^= olddelim; 
+			olds = s;
 		}
-		else
-		{
-		    if(pos != lastPos || !trimEmpty) {
-			tokens.push_back(typename ContainerT::value_type(str.c_str()+lastPos, (typename ContainerT::value_type::size_type)pos-lastPos));
-		    }
-		}
-
-		lastPos = pos + 1;
-	    }
-	};
+	}
 }
 
 #endif
