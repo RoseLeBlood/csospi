@@ -1,17 +1,6 @@
 
 .macro ARM_DIV_BODY dividend, divisor, result, curbit
 
-#if __LINUX_ARM_ARCH__ >= 5
-
-	clz	\curbit, \divisor
-	clz	\result, \dividend
-	sub	\result, \curbit, \result
-	mov	\curbit, #1
-	mov	\divisor, \divisor, lsl \result
-	mov	\curbit, \curbit, lsl \result
-	mov	\result, #0
-
-#else
 
 	@ Initially shift the divisor left 3 bits if possible,
 	@ set curbit accordingly.  This allows for curbit to be located
@@ -42,7 +31,6 @@
 
 	mov	\result, #0
 
-#endif
 
 	@ Division loop
 1:	cmp	\dividend, \divisor
@@ -66,12 +54,6 @@
 
 .macro ARM_DIV2_ORDER divisor, order
 
-#if __LINUX_ARM_ARCH__ >= 5
-
-	clz	\order, \divisor
-	rsb	\order, \order, #31
-
-#else
 
 	cmp	\divisor, #(1 << 16)
 	movhs	\divisor, \divisor, lsr #16
@@ -90,7 +72,6 @@
 	addhi	\order, \order, #3
 	addls	\order, \order, \divisor, lsr #1
 
-#endif
 
 .endm
 
